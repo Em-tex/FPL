@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">Melding om grensekryssende droneflyging</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="header-content">
+                <img src="logo.png" alt="Luftfartstilsynet Logo" class="logo">
+                <h1 data-i18n="mainHeader">Melding om grensekryssende droneflyging</h1>
+            </div>
+            <button id="langToggle" class="btn-lang" onclick="toggleLanguage()">Switch to English</button>
+        </div>
+        <p class="subtitle" data-i18n="subtitle">Skjema for informasjon til Luftfartstilsynet, Toll, Forsvaret og Avinor ved grensekrysning (Cross-Border Operations)</p>
+    </header>
+
+    <div class="container">
+        <form id="flightForm">
+            
+            <section class="card">
+                <h2 data-i18n="sect1Header">1. Operatør og Pilot</h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="operatorName" data-i18n="lblOperatorName">Operatørnavn (Selskap/Privat):</label>
+                        <input type="text" id="operatorName" name="operatorName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="operatorContact" data-i18n="lblOperatorContact">Kontaktinfo Operatør (E-post/Tlf):</label>
+                        <input type="text" id="operatorContact" name="operatorContact" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pilotName" data-i18n="lblPilotName">Navn på Pilot:</label>
+                        <input type="text" id="pilotName" name="pilotName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pilotPhone" data-i18n="lblPilotPhone">Pilot Telefon (tilgjengelig under flyging):</label>
+                        <input type="tel" id="pilotPhone" name="pilotPhone" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="pilotEmail" data-i18n="lblPilotEmail">Pilot E-post:</label>
+                        <input type="email" id="pilotEmail" name="pilotEmail" required>
+                    </div>
+                </div>
+
+                <div class="sub-section">
+                    <h3 data-i18n="subHeaderAuth">Tillatelser (hvis relevant)</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="oatNumber" data-i18n="lblOat">OAT-nummer (Operational Authorisation):</label>
+                            <input type="text" id="oatNumber" name="oatNumber" placeholder="F.eks. NOR-OAT-12345/001">
+                        </div>
+                        <div class="form-group">
+                            <label for="cboNumber" data-i18n="lblCbo">CBO-nummer (Cross-border Operation):</label>
+                            <input type="text" id="cboNumber" name="cboNumber" placeholder="F.eks. SWE-CBO-12345/001">
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+            <section class="card">
+                <h2 data-i18n="sect2Header">2. Fartøy (Drone)</h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="manufacturer" data-i18n="lblManufacturer">Produsent:</label>
+                        <input type="text" id="manufacturer" name="manufacturer" placeholder="F.eks. DJI, Wingtra..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="model" data-i18n="lblModel">Modell:</label>
+                        <input type="text" id="model" name="model" placeholder="F.eks. Matrice 300..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="droneType" data-i18n="lblDroneType">Fartøytype:</label>
+                        <select id="droneType" name="droneType">
+                            <option value="Multirotor">Multirotor</option>
+                            <option value="Fixed Wing">Fixed Wing (Fly)</option>
+                            <option value="Helicopter" data-i18n="optHelicopter">Helikopter (Single rotor)</option>
+                            <option value="Hybrid">Hybrid (VTOL)</option>
+                            <option value="Other" data-i18n="optOther">Annet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="color" data-i18n="lblColor">Farge / Kjennetegn:</label>
+                        <input type="text" id="color" name="color" placeholder="F.eks. Oransje, Grå..." required>
+                    </div>
+                </div>
+
+                <div class="form-group full-width" style="margin-top: 20px;">
+                    <label class="label-heading" data-i18n="lblEc">Elektronisk Synlighet (Velg alle som gjelder):</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="ec" value="Mode S"> Mode S</label>
+                        <label><input type="checkbox" name="ec" value="Mode S ES"> Mode S ES (ADS-B 1090)</label>
+                        <label><input type="checkbox" name="ec" value="ADS-L 4 SRD 860"> ADS-L 4 SRD 860</label>
+                        <label><input type="checkbox" name="ec" value="ADS-L 4 MOBILE"> ADS-L 4 MOBILE</label>
+                        <label><input type="checkbox" name="ec" value="Remote ID"> Remote ID (WiFi/BT)</label>
+                        <label><input type="checkbox" id="ecOtherCheck" name="ec" value="Annet"> <span data-i18n="lblOther">Annet</span></label>
+                    </div>
+                    <div id="ecOtherContainer" class="hidden">
+                        <label for="ecOtherText" data-i18n="lblEcDesc">Beskriv annet utstyr:</label>
+                        <input type="text" id="ecOtherText" name="ecOtherText">
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 data-i18n="sect3Header">3. Flyging og Rute</h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="depPlace" data-i18n="lblDepPlace">Avgangssted:</label>
+                        <input type="text" id="depPlace" name="depPlace" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="depTime" data-i18n="lblDepTime">Avgangstid (UTC/Lokal):</label>
+                        <input type="datetime-local" id="depTime" name="depTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="arrPlace" data-i18n="lblArrPlace">Landingssted:</label>
+                        <input type="text" id="arrPlace" name="arrPlace" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="arrTime" data-i18n="lblArrTime">Landingstid (Estimert):</label>
+                        <input type="datetime-local" id="arrTime" name="arrTime" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="borderPoint" data-i18n="lblBorderPoint">Sted for grensepassering (Navn/Koordinat):</label>
+                        <input type="text" id="borderPoint" name="borderPoint" placeholder="F.eks. Grensevarde 123 eller E6 Svinesund" required>
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <label class="label-heading" data-i18n="lblRouteMap">Ruteoversikt</label>
+                    <p class="help-text" data-i18n="txtMapHelp">Tegn rute i kartet eller last opp KML/GPX-fil.</p>
+                    
+                    <div class="map-controls">
+                        <input type="file" id="fileUpload" accept=".kml,.gpx,.json,.geojson" class="file-input">
+                        <button type="button" class="btn-small" onclick="clearMap()" data-i18n="btnMapClear">Slett kartdata</button>
+                    </div>
+
+                    <div id="map"></div>
+                </div>
+            </section>
+
+            <div class="actions no-print">
+                <button type="button" class="btn btn-secondary" onclick="exportJSON()" data-i18n="btnJson">Last ned Data (JSON)</button>
+                <button type="button" class="btn btn-primary" onclick="printForm()" data-i18n="btnPdf">Last ned / Skriv ut (PDF)</button>
+            </div>
+
+            <div class="info-box">
+                <h3 data-i18n="infoBoxHeader">Innsending og Viktig Info</h3>
+                <p data-i18n="infoSendTo">Når skjemaet er utfylt og PDF/JSON er lastet ned, sendes filene til:</p>
+                <ul>
+                    <li><strong>Luftfartstilsynet:</strong> postmottak@caa.no</li>
+                    <li><strong>Toll:</strong> [Relevant e-postadresse]</li>
+                    <li><strong>Forsvaret (NAOC/NJHQ):</strong> [Relevant e-postadresse]</li>
+                    <li><strong>Avinor (lokal TWR/ATCC):</strong> [Relevant e-postadresse]</li>
+                </ul>
+                <div class="disclaimer">
+                    <strong data-i18n="disclaimerTitle">Merk:</strong>
+                    <p data-i18n="disclaimerText">Dette skjemaet er en orientering. Krav til tillatelse i spesifikk kategori og cross border tillatelse for utenlandske operatører er også et krav. Dette skjemaet erstatter ikke eventuelle krav til tillatelser fra NSM for sensorbruk eller spesifikke tollprosedyrer.</p>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+    <script src="script.js"></script>
+</body>
+</html>
