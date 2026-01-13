@@ -42,7 +42,7 @@ function setupEventListeners() {
         else ecOtherContainer.classList.add('hidden');
     });
 
-    // 2. Toggle "Annet" felt for Fartøytype (NY)
+    // 2. Toggle "Annet" felt for Fartøytype
     const droneTypeSelect = document.getElementById('droneType');
     const typeOtherContainer = document.getElementById('typeOtherContainer');
     const typeOtherInput = document.getElementById('typeOtherText');
@@ -54,17 +54,17 @@ function setupEventListeners() {
         } else {
             typeOtherContainer.classList.add('hidden');
             typeOtherInput.required = false;
-            typeOtherInput.value = ""; // Tøm feltet når det skjules
+            typeOtherInput.value = ""; 
         }
     });
 
-    // LOGIKK FOR TILLATELSER
+    // 3. LOGIKK FOR TILLATELSER
     const chkState = document.getElementById('isStateAircraft');
     const oatInput = document.getElementById('oatNumber');
     const cboInput = document.getElementById('cboNumber');
     const chkIntWatersInput = document.getElementById('isIntWaters');
 
-    // 3. Statsluftfart / Militær
+    // Statsluftfart / Militær
     chkState.addEventListener('change', function() {
         if (this.checked) {
             oatInput.disabled = true;
@@ -81,7 +81,7 @@ function setupEventListeners() {
         }
     });
 
-    // 4. Internasjonalt farvann
+    // Internasjonalt farvann
     chkIntWatersInput.addEventListener('change', function() {
         if (this.checked) {
             cboInput.disabled = true;
@@ -121,11 +121,16 @@ function toggleLanguage() {
     footerP.innerHTML = translations[currentLang].footerBaseText + ' <a href="https://registrering.sensor.nsm.cloudgis.no/?initialLang=en" target="_blank">NSM</a>.';
 
     // Update Placeholders
-    document.getElementById('manufacturer').placeholder = placeholders[currentLang].manufacturer;
-    document.getElementById('model').placeholder = placeholders[currentLang].model;
-    document.getElementById('color').placeholder = placeholders[currentLang].color;
-    document.getElementById('borderPoint').placeholder = placeholders[currentLang].borderPoint;
+    const ids = ['manufacturer', 'model', 'color', 'borderPoint', 'speed', 'endurance'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.placeholder = placeholders[currentLang][id] || "";
+    });
     
+    const altInput = document.getElementById('altitudeVal');
+    if(altInput) altInput.placeholder = placeholders[currentLang].altitude;
+
+    // Betingede placeholders
     if (!document.getElementById('oatNumber').disabled) {
         document.getElementById('oatNumber').placeholder = placeholders[currentLang].oatNumber;
     }
@@ -170,9 +175,15 @@ function exportJSON() {
     
     data.generatedAt = new Date().toISOString();
     
-    // Explicitly add checkboxes that might be unchecked
+    // Explicitly add checkboxes
     data.isStateAircraft = document.getElementById('isStateAircraft').checked;
     data.isFromIntWaters = document.getElementById('isIntWaters').checked;
+    data.radioContact = document.getElementById('radioContact').checked;
+
+    // Combine altitude for cleaner JSON
+    if(data.altitudeVal && data.altitudeRef) {
+        data.altitudeCombined = `${data.altitudeVal} ${data.altitudeRef}`;
+    }
 
     const jsonString = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonString], { type: "application/json" });

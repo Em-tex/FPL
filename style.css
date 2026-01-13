@@ -3,6 +3,7 @@
     --secondary-color: #d1d2d4; 
     --text-color: #333;
     --bg-color: #f4f6f8;
+    --border-radius: 6px;
 }
 
 body {
@@ -11,7 +12,7 @@ body {
     color: var(--text-color);
     margin: 0;
     padding: 0;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .container {
@@ -20,73 +21,76 @@ body {
     padding: 20px;
 }
 
-/* HEADER - Ny Layout */
+/* --- HEADER (Updated Compact Design) --- */
 header {
     background-color: #fff;
-    padding: 20px;
+    padding: 10px 20px;
     border-bottom: 3px solid var(--primary-color);
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .header-container {
     display: flex;
-    align-items: center; /* Midtstilt vertikalt */
-    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
     max-width: 900px;
     margin: 0 auto;
+    gap: 20px;
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .logo-link {
+    display: block;
     flex-shrink: 0;
 }
 
 .logo {
-    max-height: 70px; /* Litt større enn før */
+    max-height: 45px; /* Mindre logo for bedre plass */
+    width: auto;
     display: block;
 }
 
-.header-text {
-    flex-grow: 1;
-}
-
 h1 {
-    margin: 0 0 5px 0;
-    font-size: 1.6rem;
+    margin: 0;
+    font-size: 1.3rem;
     color: var(--primary-color);
     line-height: 1.2;
+    font-weight: 700;
 }
 
-.subtitle {
+/* --- INTRO BLOCK (New) --- */
+.intro-block {
+    background-color: #eef2f5;
+    border-left: 5px solid var(--primary-color);
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border-radius: var(--border-radius);
+    color: #444;
     font-size: 0.95rem;
-    color: #555;
-    margin: 0;
-    line-height: 1.4;
 }
 
-/* LANG BUTTON */
-.btn-lang {
-    background: transparent;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    white-space: nowrap;
-}
-.btn-lang:hover {
-    background: var(--primary-color);
-    color: #fff;
-}
-
-/* CARDS / SECTIONS */
+/* --- FORM SECTIONS --- */
 .card {
     background: #fff;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     padding: 25px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    border-left: 5px solid var(--primary-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+}
+
+h2 {
+    color: var(--primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+    font-size: 1.2rem;
 }
 
 .sub-section {
@@ -95,19 +99,14 @@ h1 {
     border-top: 1px dashed #ccc;
 }
 .sub-section h3 {
-    font-size: 1.1rem;
-    color: #555;
+    font-size: 1rem;
+    color: #666;
     margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-h2 {
-    color: var(--primary-color);
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-top: 0;
-}
-
-/* FORM GRID */
+/* --- GRID & INPUTS --- */
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -125,40 +124,66 @@ h2 {
 label {
     display: block;
     font-weight: 600;
-    margin-bottom: 5px;
-    font-size: 0.95rem;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Input group for Value + Unit (e.g. Altitude) */
+.input-group {
+    display: flex;
+    gap: 0; /* Ingen gap, border henger sammen */
+}
+.input-group input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    flex: 2;
+}
+.input-group select {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+    background-color: #f8f9fa;
+    flex: 1;
 }
 
 input[type="text"], 
 input[type="email"], 
 input[type="tel"],
+input[type="number"],
 input[type="datetime-local"],
 select,
 textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     font-size: 1rem;
     box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
 }
 
 small.help-text {
     display: block;
     color: #666;
-    font-size: 0.85rem;
-    font-weight: normal;
+    font-size: 0.8rem;
     margin-bottom: 5px;
+    margin-top: -3px;
 }
 
-/* CHECKBOXES */
+/* --- CHECKBOXES --- */
 .checkbox-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px;
     background: #f9f9f9;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     border: 1px solid #eee;
 }
 
@@ -167,20 +192,40 @@ small.help-text {
     display: flex;
     align-items: center;
     cursor: pointer;
+    background: #fff;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
 }
+.checkbox-group label:hover {
+    border-color: #bbb;
+}
+.checkbox-group input { margin-right: 8px; width: auto; }
 
-.checkbox-group input {
-    margin-right: 8px;
+/* Single large checkbox (Radio Contact) */
+.checkbox-single {
+    margin-top: 10px;
+    padding: 12px;
+    background: #e3f2fd; /* Lys blå */
+    border: 1px solid #90caf9;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
+.checkbox-single input { margin-right: 12px; width: auto; transform: scale(1.2); }
+.checkbox-single strong { font-size: 1rem; color: #0d47a1; }
 
 .hidden { display: none; }
 
-/* KART */
+/* --- MAP --- */
+.map-section { margin-top: 20px; }
 #map {
-    height: 400px;
+    height: 350px;
     width: 100%;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     margin-top: 10px;
     z-index: 1;
 }
@@ -188,11 +233,11 @@ small.help-text {
 .map-controls {
     margin-bottom: 10px;
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
     align-items: center;
 }
 
-/* BUTTONS */
+/* --- BUTTONS --- */
 .actions {
     display: flex;
     justify-content: flex-end;
@@ -202,12 +247,12 @@ small.help-text {
 }
 
 .btn {
-    padding: 12px 25px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600;
     transition: background 0.2s;
 }
 
@@ -218,63 +263,78 @@ small.help-text {
 .btn-secondary:hover { background-color: #5a6268; }
 
 .btn-small {
-    padding: 5px 10px;
+    padding: 6px 12px;
     background: #eee;
     border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 0.85rem;
 }
-
-/* INFO BOX */
-.info-box {
-    background-color: #e9f5ff;
-    border: 1px solid #b8daff;
-    color: #004085;
-    padding: 20px;
-    border-radius: 8px;
+.btn-lang {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
     font-size: 0.9rem;
+    white-space: nowrap;
 }
+.btn-lang:hover { background: var(--primary-color); color: #fff; }
 
-.info-box ul { list-style-type: none; padding: 0; }
+/* --- INFO BOX & FOOTER --- */
+.info-box {
+    background-color: #f0f7ff;
+    border: 1px solid #cce5ff;
+    color: #004085;
+}
+.info-box ul { list-style-type: none; padding-left: 0; }
+.info-box li { margin-bottom: 5px; }
+
 .disclaimer {
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 1px solid #b8daff;
-    color: #333;
+    border-top: 1px solid #cce5ff;
+    font-size: 0.85rem;
+    color: #555;
 }
 .disclaimer a { color: var(--primary-color); text-decoration: underline; }
 
-/* PRINT STYLING - Sørger for pene sider */
+/* --- PRINT STYLES --- */
 @media print {
-    body { background-color: #fff; }
+    body { background-color: #fff; font-size: 12px; }
     .no-print, .actions, .map-controls, #langToggle { display: none !important; }
     .container { width: 100%; max-width: 100%; padding: 0; margin: 0; }
     
-    /* Unngå at bokser kuttes i to */
+    header { border-bottom: 2px solid #000; margin-bottom: 10px; padding: 0; }
+    .intro-block { border: none; padding: 0; margin-bottom: 10px; background: none; font-style: italic; }
+    
     .form-section, .card, .info-box { 
         break-inside: avoid; 
         page-break-inside: avoid; 
         box-shadow: none; 
-        border: 1px solid #ccc; 
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+        padding: 15px;
     }
 
-    input, select { border: none; background: transparent; padding: 0; font-weight: bold; appearance: none; }
-    
-    #map { height: 300px; border: 1px solid #999; }
-    
-    .header-container { 
-        display: flex !important; 
-        flex-direction: row; 
-        justify-content: flex-start; 
-        border-bottom: 2px solid #000;
+    input, select, textarea { 
+        border: none; 
+        background: transparent; 
+        padding: 0; 
+        font-weight: bold; 
+        appearance: none;
+        resize: none;
     }
-    
-    /* Skjul lenke-stier */
+    /* Skjuler tomme placeholdere på print */
+    input::placeholder { color: transparent; }
+
+    #map { height: 250px; border: 1px solid #999; }
     a[href]:after { content: none !important; }
 }
 
 @media (max-width: 600px) {
     .grid-2 { grid-template-columns: 1fr; }
     .full-width { grid-column: span 1; }
-    .header-container { flex-direction: column; align-items: flex-start; }
+    .header-container { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
