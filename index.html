@@ -21,14 +21,21 @@
             </div>
             <button id="langToggle" class="btn-lang" onclick="toggleLanguage()">Switch to English</button>
         </div>
-        <p class="subtitle" data-i18n="subtitle">Skjema for informasjon til Luftfartstilsynet, Toll, Forsvaret og Avinor ved grensekrysning (Cross-Border Operations)</p>
+        <p class="subtitle" data-i18n="subtitle">Skjema for informasjon til Luftfartstilsynet, Toll, Forsvaret og Avinor ved grensekrysning</p>
     </header>
 
     <div class="container">
+        
+        <div class="alert-warning no-print">
+            <strong data-i18n="alertOpenCatTitle">OBS - Åpen Kategori:</strong>
+            <span data-i18n="alertOpenCatText">Dette skjemaet er IKKE et krav for flyging i åpen kategori. Det er primært ment for spesifikk kategori og statsluftfart.</span>
+        </div>
+
         <form id="flightForm">
             
             <section class="card">
-                <h2 data-i18n="sect1Header">1. Operatør og Pilot</h2>
+                <h2 data-i18n="sect1Header">1. Operatør og Tillatelser</h2>
+                
                 <div class="grid-2">
                     <div class="form-group">
                         <label for="operatorName" data-i18n="lblOperatorName">Operatørnavn (Selskap/Privat):</label>
@@ -53,15 +60,33 @@
                 </div>
 
                 <div class="sub-section">
-                    <h3 data-i18n="subHeaderAuth">Tillatelser (hvis relevant)</h3>
-                    <div class="grid-2">
+                    <h3 data-i18n="subHeaderAuth">Tillatelser / Autorisasjoner</h3>
+                    
+                    <div class="checkbox-group full-width" style="margin-bottom: 15px;">
+                        <label>
+                            <input type="checkbox" id="isStateAircraft" name="isStateAircraft">
+                            <span data-i18n="chkStateAircraft">Militær / Statsluftfart (Unntatt fra EASA-regler)</span>
+                        </label>
+                    </div>
+
+                    <div id="civilAuthContainer" class="grid-2">
                         <div class="form-group">
-                            <label for="oatNumber" data-i18n="lblOat">OAT-nummer (Operational Authorisation):</label>
-                            <input type="text" id="oatNumber" name="oatNumber" placeholder="F.eks. NOR-OAT-12345/001">
+                            <label for="oatNumber" data-i18n="lblOat">OAT-nummer (Operatørtillatelse hjemland):</label>
+                            <input type="text" id="oatNumber" name="oatNumber" placeholder="F.eks. NOR-OAT-12345/001" required>
+                            <small class="help-text" data-i18n="helpOat">Må fylles ut for spesifikk kategori.</small>
                         </div>
+                        
                         <div class="form-group">
-                            <label for="cboNumber" data-i18n="lblCbo">CBO-nummer (Cross-border Operation):</label>
+                            <label for="cboNumber" data-i18n="lblCbo">CBO/CRB-nummer (Bekreftelse fra besøksland):</label>
                             <input type="text" id="cboNumber" name="cboNumber" placeholder="F.eks. SWE-CBO-12345/001">
+                            <small class="help-text" data-i18n="helpCbo">Kreves for utenlandske operatører (også fra int. farvann).</small>
+                            
+                            <div style="margin-top: 8px;">
+                                <label style="font-weight: normal; font-size: 0.9em; display: flex; align-items: center;">
+                                    <input type="checkbox" id="isIntWaters" name="isIntWaters" style="width: auto; margin-right: 8px;">
+                                    <span data-i18n="chkIntWaters">Passering fra internasjonalt farvann</span>
+                                </label>
+                                </div>
                         </div>
                     </div>
                  </div>
@@ -165,7 +190,7 @@
                 </ul>
                 <div class="disclaimer">
                     <strong data-i18n="disclaimerTitle">Merk:</strong>
-                    <p data-i18n="disclaimerText">Dette skjemaet er en orientering. Krav til tillatelse i spesifikk kategori og cross border tillatelse for utenlandske operatører er også et krav. Dette skjemaet erstatter ikke eventuelle krav til tillatelser fra NSM for sensorbruk eller spesifikke tollprosedyrer.</p>
+                    <p data-i18n="disclaimerText">Dette skjemaet er en orientering. Operatøren er ansvarlig for å inneha gyldig operasjonstillatelse (OAT) og bekreftelse på cross-border operasjon (CBO/CRB) før flygingen finner sted, med mindre annet følger av unntak (f.eks. statsluftfart). Dette skjemaet erstatter ikke krav fra NSM eller Tolletaten.</p>
                 </div>
             </div>
 

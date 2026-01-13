@@ -1,3 +1,34 @@
+/* Legg til dette i din eksisterende CSS-fil, gjerne under .container */
+
+.alert-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    border-left: 5px solid #ffc107;
+}
+
+.alert-warning strong {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+/* Deaktivert felt-stil */
+input:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    color: #6c757d;
+}
+
+.disabled-text {
+    color: #aaa;
+}
+
+/* ... resten er likt som før ... */
 :root {
     --primary-color: #003057; /* LT Mørkeblå */
     --secondary-color: #d1d2d4; /* Lys grå */
@@ -138,6 +169,11 @@ select {
     font-size: 1rem;
     box-sizing: border-box;
 }
+small.help-text {
+    color: #666;
+    font-size: 0.8rem;
+    font-weight: normal;
+}
 
 /* CHECKBOXES */
 .checkbox-group {
@@ -239,7 +275,7 @@ select {
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid #b8daff;
-    color: #856404; /* Mørk gul/brun varsel-farge */
+    color: #856404;
 }
 
 /* PRINT STYLING */
@@ -249,7 +285,6 @@ select {
     .container { width: 100%; max-width: 100%; padding: 0; margin: 0; }
     .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
     input, select { border: none; background: transparent; padding: 0; font-weight: bold; appearance: none;}
-    /* Fix for dropdowns in print: shows selected value text */
     
     #map { height: 300px; border: 1px solid #999; }
     .header-container { display: block; text-align: left; }
