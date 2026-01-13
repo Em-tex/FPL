@@ -14,10 +14,10 @@ const translations = {
         
         subHeaderAuth: "Tillatelser / Autorisasjoner",
         chkStateAircraft: "Militær / Statsluftfart (Unntatt fra EASA-regler)",
-        lblOat: "Kreves for operatører uten norsk OAT-nummer:",
+        lblOat: "OAT-nummer:",
         helpOat: "Fylles ut hvis du ikke har et norsk tildelt nummer (f.eks. utenlandske operatører).",
         lblCbo: "CBO/CRB-nummer (Bekreftelse fra besøksland):",
-        helpCbo: "Kreves for utenlandske operatører (også fra int. farvann).",
+        helpCbo: "Kreves for operatører uten norsk OAT (også fra int. farvann).",
         chkIntWaters: "Passering fra internasjonalt farvann",
         
         // Seksjon 2
@@ -25,16 +25,15 @@ const translations = {
         lblManufacturer: "Produsent:",
         lblModel: "Modell:",
         lblMtom: "MTOM (kg):", 
-        lblPowerplant: "Drivlinje / Powerplant:", // NY
+        lblPowerplant: "Drivlinje / Powerplant:",
         lblDroneType: "Fartøytype:",
         
-        // Dropdown valg
         optFixedWing: "Fixed Wing (Fly)",
         optHelicopter: "Helikopter (Single rotor)",
         optAirship: "Luftskip",
         optBalloon: "Ballong",
         optOther: "Annet",
-        // Powerplant valg
+        
         optElectric: "Elektrisk (Batteri)",
         optPiston: "Stempelmotor / Hybrid",
         optTurbine: "Turbin / Jet",
@@ -54,7 +53,7 @@ const translations = {
         lblArrTime: "Landingstid (Estimert):",
         lblBorderPoint: "Sted for grensepassering (Navn/Koordinat):",
         
-        // NYE FELT FPL
+        // FPL FELT
         lblAltitude: "Planlagt høyde (Maks):",
         lblSpeed: "Cruising Speed (kts/kmh):",
         lblEndurance: "Endurance (Estimert flytid):",
@@ -67,8 +66,17 @@ const translations = {
         btnJson: "Last ned Data (JSON)",
         btnPdf: "Last ned / Skriv ut (PDF)",
         
+        // Footer info
         infoBoxHeader: "Innsending og Viktig Info",
         infoSendTo: "Når skjemaet er utfylt og PDF/JSON er lastet ned, sendes filene til:",
+        
+        emailToll: "<strong>Toll:</strong> [Sett inn relevant e-post]",
+        emailForsvar: "<strong>Forsvaret (NAOC/NJHQ):</strong> [Sett inn relevant e-post]",
+        emailAvinor: "<strong>Avinor (lokal TWR/ATCC):</strong> [Sett inn relevant e-post]",
+        
+        lblCopyEmails: "Kopieringsvennlig linje (Alle mottakere):",
+        copyStringPlaceholder: "postmottak@caa.no, [Toll-Epost], [Forsvaret-Epost], [Avinor-Epost]",
+
         disclaimerTitle: "Merk:",
         footerBaseText: "Dette skjemaet er en orientering. Operatøren er ansvarlig for tillatelser. Bruk av sensorer (kamera m.m.) må for utenlandske operatører rapporteres til "
     },
@@ -87,9 +95,9 @@ const translations = {
         
         subHeaderAuth: "Permissions / Authorisations",
         chkStateAircraft: "Military / State Aircraft (Exempt from EASA rules)",
-        lblOat: "Required for operators without a Norwegian OAT number:",
+        lblOat: "OAT-number:",
         helpOat: "Fill this out if you do not have a Norwegian assigned number (e.g. foreign operators).",
-        lblCbo: "CBO/CRB Number (Confirmation from visiting state):",
+        lblCbo: "CBO/CRB Number:",
         helpCbo: "Required for foreign operators (also from int. waters).",
         chkIntWaters: "Crossing from International Waters",
 
@@ -98,7 +106,7 @@ const translations = {
         lblManufacturer: "Manufacturer:",
         lblModel: "Model:",
         lblMtom: "MTOM (kg):",
-        lblPowerplant: "Powerplant / Propulsion:", // NEW
+        lblPowerplant: "Powerplant / Propulsion:",
         lblDroneType: "Type of Aircraft:",
         
         optFixedWing: "Fixed Wing",
@@ -138,8 +146,17 @@ const translations = {
         btnJson: "Download Data (JSON)",
         btnPdf: "Download / Print (PDF)",
         
+        // Footer info
         infoBoxHeader: "Submission and Important Info",
         infoSendTo: "Once filled out and downloaded, send the files to:",
+        
+        emailToll: "<strong>Customs:</strong> [Insert relevant email]",
+        emailForsvar: "<strong>Armed Forces (NAOC/NJHQ):</strong> [Insert relevant email]",
+        emailAvinor: "<strong>Avinor (local TWR/ATCC):</strong> [Insert relevant email]",
+        
+        lblCopyEmails: "Copy-paste string (All recipients):",
+        copyStringPlaceholder: "postmottak@caa.no, [Customs-Email], [Defence-Email], [Avinor-Email]",
+
         disclaimerTitle: "Note:",
         footerBaseText: "This form is for information purposes only. The operator is responsible for permissions. Use of sensors (camera etc.) must for foreign operators be reported to "
     }
@@ -163,7 +180,7 @@ const placeholders = {
         color: "E.g. Orange, Grey...",
         borderPoint: "E.g. Border marker 123 or E6 Svinesund",
         oatNumber: "E.g. UAS-NO-...",
-        cboNumber: "E.g. SWE-CBO-12345/001",
+        cboNumber: "E.g. NOR-CBO-12345/001",
         speed: "E.g. 15 m/s or 30 kts",
         endurance: "E.g. 45 min",
         altitude: "Value (e.g. 400)"

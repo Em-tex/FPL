@@ -2,8 +2,6 @@ let map;
 let drawnItems;
 let currentLang = 'no'; // Default language
 
-// NB: 'translations' og 'placeholders' lastes nå fra translations.js
-
 document.addEventListener('DOMContentLoaded', () => {
     initMap();
     setupEventListeners();
@@ -108,15 +106,19 @@ function toggleLanguage() {
         logoLink.href = "https://www.luftfartstilsynet.no/en/drones/";
     }
 
-    // Update Translations based on data-i18n attributes
+    // Update Translations
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
-            el.textContent = translations[currentLang][key];
+            // Bruker innerHTML for å støtte formatting som <strong> i epost-lista
+            el.innerHTML = translations[currentLang][key];
         }
     });
 
-    // Update Footer Link Text
+    // Update Footer Copy String
+    document.getElementById('emailCopyString').textContent = translations[currentLang].copyStringPlaceholder;
+
+    // Update Footer Link Text for NSM (Special case with link)
     const footerP = document.getElementById('footerDisclaimerText');
     footerP.innerHTML = translations[currentLang].footerBaseText + ' <a href="https://registrering.sensor.nsm.cloudgis.no/?initialLang=en" target="_blank">NSM</a>.';
 

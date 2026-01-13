@@ -1,9 +1,10 @@
 :root {
     --primary-color: #003057; /* Luftfartstilsynet blå */
-    --secondary-color: #d1d2d4; 
+    --secondary-color: #666; 
     --text-color: #333;
     --bg-color: #f4f6f8;
-    --border-radius: 6px;
+    --border-radius: 4px;
+    --input-height: 42px; /* Fast høyde for perfekt alignment */
 }
 
 body {
@@ -12,22 +13,23 @@ body {
     color: var(--text-color);
     margin: 0;
     padding: 0;
-    line-height: 1.5;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
 .container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
-/* --- HEADER (Updated Compact Design) --- */
+/* --- HEADER --- */
 header {
     background-color: #fff;
-    padding: 10px 20px;
+    padding: 15px 30px;
     border-bottom: 3px solid var(--primary-color);
-    margin-bottom: 25px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
 }
 
 .header-container {
@@ -42,7 +44,7 @@ header {
 .logo-group {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 
 .logo-link {
@@ -51,66 +53,70 @@ header {
 }
 
 .logo {
-    max-height: 45px; /* Mindre logo for bedre plass */
+    max-height: 40px; 
     width: auto;
     display: block;
 }
 
 h1 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     color: var(--primary-color);
-    line-height: 1.2;
-    font-weight: 700;
+    font-weight: 600;
+    line-height: 1.3;
 }
 
-/* --- INTRO BLOCK (New) --- */
+/* --- INTRO BLOCK --- */
 .intro-block {
-    background-color: #eef2f5;
-    border-left: 5px solid var(--primary-color);
-    padding: 15px 20px;
-    margin-bottom: 25px;
+    background-color: #fff;
+    border-left: 4px solid #888;
+    padding: 20px;
+    margin-bottom: 30px;
     border-radius: var(--border-radius);
     color: #444;
     font-size: 0.95rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* --- FORM SECTIONS --- */
+/* --- FORM CARDS --- */
 .card {
     background: #fff;
     border-radius: var(--border-radius);
-    padding: 25px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border: 1px solid #e0e0e0;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    border: 1px solid #eef0f2;
 }
 
 h2 {
     color: var(--primary-color);
     border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    padding-bottom: 12px;
     margin-top: 0;
+    margin-bottom: 25px;
     font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .sub-section {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px dashed #ccc;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #ddd;
 }
 .sub-section h3 {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 15px;
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    font-weight: 600;
 }
 
 /* --- GRID & INPUTS --- */
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 25px;
 }
 
 .full-width {
@@ -118,35 +124,18 @@ h2 {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 label {
     display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-    font-size: 0.9rem;
-    color: #333;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: #444;
 }
 
-/* Input group for Value + Unit (e.g. Altitude) */
-.input-group {
-    display: flex;
-    gap: 0; /* Ingen gap, border henger sammen */
-}
-.input-group input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    flex: 2;
-}
-.input-group select {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-left: none;
-    background-color: #f8f9fa;
-    flex: 1;
-}
-
+/* Felles stil for alle input-typer */
 input[type="text"], 
 input[type="email"], 
 input[type="tel"],
@@ -155,83 +144,129 @@ input[type="datetime-local"],
 select,
 textarea {
     width: 100%;
-    padding: 10px;
+    height: var(--input-height);
+    padding: 0 12px;
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
     font-size: 1rem;
+    font-family: inherit;
+    color: #333;
     box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #fff;
+}
+
+textarea {
+    height: auto;
+    padding: 12px;
 }
 
 input:focus, select:focus, textarea:focus {
     border-color: var(--primary-color);
     outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 48, 87, 0.1);
+}
+
+/* Spesialhåndtering for "Input Group" (Høyde + Enhet) */
+.input-group {
+    display: flex;
+    height: var(--input-height);
+}
+.input-group input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0;
+    flex: 2;
+}
+.input-group select {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    flex: 1;
+    background-color: #f9f9f9;
 }
 
 small.help-text {
     display: block;
     color: #666;
-    font-size: 0.8rem;
-    margin-bottom: 5px;
-    margin-top: -3px;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    line-height: 1.4;
 }
 
 /* --- CHECKBOXES --- */
 .checkbox-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: var(--border-radius);
-    border: 1px solid #eee;
+    gap: 12px;
+    margin-top: 5px;
 }
 
 .checkbox-group label {
-    font-weight: normal;
+    font-weight: 400;
     display: flex;
     align-items: center;
     cursor: pointer;
     background: #fff;
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
     font-size: 0.9rem;
+    transition: background 0.1s;
 }
 .checkbox-group label:hover {
+    background-color: #f4f6f8;
     border-color: #bbb;
 }
-.checkbox-group input { margin-right: 8px; width: auto; }
+.checkbox-group input { 
+    margin-right: 10px; 
+    height: 16px; 
+    width: 16px; 
+    accent-color: var(--primary-color);
+}
 
-/* Single large checkbox (Radio Contact) */
+/* Single large checkbox (Radio / State Aircraft) */
 .checkbox-single {
-    margin-top: 10px;
-    padding: 12px;
-    background: #e3f2fd; /* Lys blå */
-    border: 1px solid #90caf9;
-    border-radius: var(--border-radius);
     display: flex;
     align-items: center;
+    background: #eef4fa;
+    border: 1px solid #d0e0f0;
+    padding: 15px;
+    border-radius: var(--border-radius);
     cursor: pointer;
 }
-.checkbox-single input { margin-right: 12px; width: auto; transform: scale(1.2); }
-.checkbox-single strong { font-size: 1rem; color: #0d47a1; }
+.checkbox-single input { 
+    margin-right: 15px; 
+    transform: scale(1.1); 
+    accent-color: var(--primary-color);
+}
+.checkbox-single span {
+    font-weight: 500;
+    color: var(--primary-color);
+}
 
 .hidden { display: none; }
 
 /* --- MAP --- */
-.map-section { margin-top: 20px; }
+.map-section { margin-top: 30px; }
+.label-heading {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
 #map {
     height: 350px;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
-    margin-top: 10px;
+    margin-top: 15px;
     z-index: 1;
 }
 
 .map-controls {
-    margin-bottom: 10px;
+    margin-top: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -242,99 +277,164 @@ small.help-text {
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-    margin-top: 20px;
-    margin-bottom: 40px;
+    margin-top: 30px;
+    margin-bottom: 50px;
 }
 
 .btn {
-    padding: 12px 24px;
+    padding: 0 30px;
+    height: 48px;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
     font-size: 1rem;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background 0.2s;
 }
 
 .btn-primary { background-color: var(--primary-color); color: white; }
-.btn-primary:hover { background-color: #004a80; }
+.btn-primary:hover { background-color: #00427a; }
 
-.btn-secondary { background-color: #6c757d; color: white; }
-.btn-secondary:hover { background-color: #5a6268; }
+.btn-secondary { background-color: #e0e0e0; color: #333; }
+.btn-secondary:hover { background-color: #d0d0d0; }
 
 .btn-small {
-    padding: 6px 12px;
-    background: #eee;
+    padding: 6px 15px;
+    background: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.85rem;
 }
+
 .btn-lang {
     background: transparent;
     border: 1px solid var(--primary-color);
     color: var(--primary-color);
-    padding: 6px 12px;
+    padding: 6px 15px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9rem;
     white-space: nowrap;
+    transition: all 0.2s;
 }
 .btn-lang:hover { background: var(--primary-color); color: #fff; }
 
 /* --- INFO BOX & FOOTER --- */
 .info-box {
-    background-color: #f0f7ff;
-    border: 1px solid #cce5ff;
-    color: #004085;
+    background-color: #f0f8ff; 
+    border: 1px solid #cfe2ff;
+    color: #333;
+    padding: 30px; 
+    border-radius: var(--border-radius);
 }
-.info-box ul { list-style-type: none; padding-left: 0; }
-.info-box li { margin-bottom: 5px; }
+
+.info-box h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    border-bottom: 2px solid #cfe2ff;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.email-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+.email-list li {
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+    font-size: 0.95rem;
+}
+.email-list li::before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+.email-list strong {
+    font-weight: 600;
+    color: #000;
+}
+
+/* Kopierings-linje stil */
+.email-copy-container {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: var(--border-radius);
+}
+.email-copy-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 5px;
+    display: block;
+}
+.email-copy-field {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    color: #333;
+    word-break: break-all;
+    user-select: all;
+}
 
 .disclaimer {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #cce5ff;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #cfe2ff;
     font-size: 0.85rem;
     color: #555;
+    line-height: 1.5;
 }
 .disclaimer a { color: var(--primary-color); text-decoration: underline; }
 
 /* --- PRINT STYLES --- */
 @media print {
-    body { background-color: #fff; font-size: 12px; }
+    body { background-color: #fff; font-size: 11pt; }
     .no-print, .actions, .map-controls, #langToggle { display: none !important; }
     .container { width: 100%; max-width: 100%; padding: 0; margin: 0; }
     
-    header { border-bottom: 2px solid #000; margin-bottom: 10px; padding: 0; }
-    .intro-block { border: none; padding: 0; margin-bottom: 10px; background: none; font-style: italic; }
+    header { border-bottom: 2px solid #000; margin-bottom: 20px; padding: 0; box-shadow: none; }
+    .intro-block { border: 1px solid #ccc; box-shadow: none; }
     
-    .form-section, .card, .info-box { 
+    .card, .info-box { 
         break-inside: avoid; 
         page-break-inside: avoid; 
         box-shadow: none; 
-        border: 1px solid #ccc;
+        border: 1px solid #999;
         margin-bottom: 15px;
         padding: 15px;
     }
 
     input, select, textarea { 
-        border: none; 
+        border: 1px solid #ddd; 
         background: transparent; 
-        padding: 0; 
-        font-weight: bold; 
-        appearance: none;
-        resize: none;
+        box-shadow: none;
     }
-    /* Skjuler tomme placeholdere på print */
-    input::placeholder { color: transparent; }
-
-    #map { height: 250px; border: 1px solid #999; }
+    
+    .checkbox-single { background: #fff; border: 1px solid #999; }
+    
+    #map { height: 250px; border: 1px solid #000; }
     a[href]:after { content: none !important; }
 }
 
-@media (max-width: 600px) {
-    .grid-2 { grid-template-columns: 1fr; }
+@media (max-width: 650px) {
+    .grid-2 { grid-template-columns: 1fr; gap: 15px; }
     .full-width { grid-column: span 1; }
-    .header-container { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .header-container { flex-direction: column; align-items: flex-start; }
+    .input-group { flex-direction: column; height: auto; }
+    .input-group input, .input-group select { width: 100%; border-radius: var(--border-radius); border: 1px solid #ccc; margin-bottom: 5px; }
 }

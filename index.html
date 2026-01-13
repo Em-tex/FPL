@@ -65,18 +65,18 @@
                 <div class="sub-section">
                     <h3 data-i18n="subHeaderAuth">Tillatelser / Autorisasjoner</h3>
                     
-                    <div class="checkbox-group full-width" style="margin-bottom: 15px;">
-                        <label>
+                    <div class="form-group full-width">
+                        <label class="checkbox-single">
                             <input type="checkbox" id="isStateAircraft" name="isStateAircraft">
                             <span data-i18n="chkStateAircraft">Militær / Statsluftfart (Unntatt fra EASA-regler)</span>
                         </label>
                     </div>
 
-                    <div id="civilAuthContainer" class="grid-2">
+                    <div id="civilAuthContainer" class="grid-2" style="margin-top: 20px;">
                         <div class="form-group">
                             <label for="oatNumber" data-i18n="lblOat">Kreves for operatører uten norsk OAT-nummer:</label>
-                            <small class="help-text" data-i18n="helpOat">Fylles ut hvis du ikke har et norsk tildelt nummer (f.eks. utenlandske operatører).</small>
-                            <input type="text" id="oatNumber" name="oatNumber" placeholder="F.eks. UAS-NO-..." >
+                            <small class="help-text" data-i18n="helpOat">Fylles ut hvis du ikke har et norsk tildelt nummer.</small>
+                            <input type="text" id="oatNumber" name="oatNumber" placeholder="NOR-OAT-..." >
                         </div>
                         
                         <div class="form-group">
@@ -84,9 +84,9 @@
                             <small class="help-text" data-i18n="helpCbo">Kreves for utenlandske operatører (også fra int. farvann).</small>
                             <input type="text" id="cboNumber" name="cboNumber" placeholder="F.eks. SWE-CBO-12345/001">
                             
-                            <div style="margin-top: 8px;">
-                                <label style="font-weight: normal; font-size: 0.9em; display: flex; align-items: center;">
-                                    <input type="checkbox" id="isIntWaters" name="isIntWaters" style="width: auto; margin-right: 8px;">
+                            <div class="checkbox-group" style="margin-top: 8px; border: none; background: transparent; padding: 0;">
+                                <label style="border: none; padding: 0; background: transparent;">
+                                    <input type="checkbox" id="isIntWaters" name="isIntWaters">
                                     <span data-i18n="chkIntWaters">Passering fra internasjonalt farvann</span>
                                 </label>
                             </div>
@@ -113,6 +113,16 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="powerplant" data-i18n="lblPowerplant">Drivlinje / Powerplant:</label>
+                        <select id="powerplant" name="powerplant">
+                            <option value="Electric" data-i18n="optElectric">Elektrisk (Batteri)</option>
+                            <option value="Piston" data-i18n="optPiston">Stempelmotor / Hybrid</option>
+                            <option value="Turbine" data-i18n="optTurbine">Turbin / Jet</option>
+                            <option value="None" data-i18n="optNone">Ingen (Glidefly/Ballong)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="droneType" data-i18n="lblDroneType">Fartøytype:</label>
                         <select id="droneType" name="droneType">
                             <option value="Multirotor">Multirotor</option>
@@ -128,16 +138,6 @@
                             <input type="text" id="typeOtherText" name="typeOtherText">
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="powerplant" data-i18n="lblPowerplant">Drivlinje / Powerplant:</label>
-                        <select id="powerplant" name="powerplant">
-                            <option value="Electric" data-i18n="optElectric">Elektrisk</option>
-                            <option value="Piston" data-i18n="optPiston">Stempelmotor / Hybrid</option>
-                            <option value="Turbine" data-i18n="optTurbine">Turbin / Jet</option>
-                            <option value="None" data-i18n="optNone">Ingen (Glidefly/Ballong)</option>
-                        </select>
-                    </div>
                     
                     <div class="form-group">
                         <label for="color" data-i18n="lblColor">Farge / Kjennetegn:</label>
@@ -145,8 +145,8 @@
                     </div>
                 </div>
 
-                <div class="form-group full-width" style="margin-top: 20px;">
-                    <label class="label-heading" data-i18n="lblEc">Elektronisk Synlighet (Velg alle som gjelder):</label>
+                <div class="form-group full-width" style="margin-top: 25px;">
+                    <label style="margin-bottom: 10px;" data-i18n="lblEc">Elektronisk Synlighet (Velg alle som gjelder):</label>
                     <div class="checkbox-group">
                         <label><input type="checkbox" name="ec" value="Mode S"> Mode S</label>
                         <label><input type="checkbox" name="ec" value="Mode S ES"> Mode S ES (ADS-B 1090)</label>
@@ -155,7 +155,7 @@
                         <label><input type="checkbox" name="ec" value="Remote ID"> Remote ID (WiFi/BT)</label>
                         <label><input type="checkbox" id="ecOtherCheck" name="ec" value="Annet"> <span data-i18n="lblOther">Annet</span></label>
                     </div>
-                    <div id="ecOtherContainer" class="hidden">
+                    <div id="ecOtherContainer" class="hidden" style="margin-top: 10px;">
                         <label for="ecOtherText" data-i18n="lblEcDesc">Beskriv annet utstyr:</label>
                         <input type="text" id="ecOtherText" name="ecOtherText">
                     </div>
@@ -211,15 +211,15 @@
                     </div>
                 </div>
 
-                <div class="form-group full-width">
+                <div class="form-group full-width" style="margin-top: 20px;">
                     <label class="checkbox-single">
                         <input type="checkbox" id="radioContact" name="radioContact">
-                        <strong data-i18n="lblRadio">Vil opprette radiokontakt med ATC</strong>
+                        <span data-i18n="lblRadio">Vil opprette radiokontakt med ATC</span>
                     </label>
                 </div>
 
                 <div class="map-section">
-                    <label class="label-heading" data-i18n="lblRouteMap">Ruteoversikt</label>
+                    <span class="label-heading" data-i18n="lblRouteMap">Ruteoversikt</span>
                     <p class="help-text" data-i18n="txtMapHelp">Tegn rute i kartet eller last opp KML/GPX-fil.</p>
                     
                     <div class="map-controls no-print">
@@ -239,14 +239,34 @@
             <div class="info-box form-section">
                 <h3 data-i18n="infoBoxHeader">Innsending og Viktig Info</h3>
                 <p data-i18n="infoSendTo">Når skjemaet er utfylt og PDF/JSON er lastet ned, sendes filene til:</p>
-                <ul>
-                    <li><strong>Luftfartstilsynet:</strong> postmottak@caa.no</li>
-                    <li><strong>Toll / Forsvaret / Avinor:</strong> Sendes etter lokal avtale/behov.</li>
+                
+                <ul class="email-list">
+                    <li>
+                        <strong>Luftfartstilsynet:</strong> postmottak@caa.no
+                    </li>
+                    <li data-i18n="emailToll">
+                        <strong>Toll:</strong> [Sett inn relevant e-post]
+                    </li>
+                    <li data-i18n="emailForsvar">
+                        <strong>Forsvaret (NAOC/NJHQ):</strong> [Sett inn relevant e-post]
+                    </li>
+                    <li data-i18n="emailAvinor">
+                        <strong>Avinor (lokal TWR/ATCC):</strong> [Sett inn relevant e-post]
+                    </li>
                 </ul>
+
+                <div class="email-copy-container no-print">
+                    <span class="email-copy-label" data-i18n="lblCopyEmails">Kopieringsvennlig linje (Alle mottakere):</span>
+                    <div class="email-copy-field" id="emailCopyString">
+                        postmottak@caa.no, [Toll-Epost], [Forsvaret-Epost], [Avinor-Epost]
+                    </div>
+                </div>
+
                 <div class="disclaimer">
                     <strong data-i18n="disclaimerTitle">Merk:</strong>
-                    <p id="footerDisclaimerText">
-                        Dette skjemaet er en orientering...
+                    <p id="footerDisclaimerText" style="margin-top: 5px;">
+                        Dette skjemaet er en orientering. Operatøren er ansvarlig for tillatelser. 
+                        Bruk av sensorer (kamera m.m.) må for utenlandske operatører rapporteres til 
                         <a href="https://registrering.sensor.nsm.cloudgis.no/?initialLang=en" target="_blank">NSM</a>.
                     </p>
                 </div>
@@ -258,6 +278,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
     <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+    
     <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
