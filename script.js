@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMap();
     setupEventListeners();
     applyTranslations(currentLang);
+    // updateAuthUI kalles inni applyTranslations, men vi kan kalle den her også for sikkerhets skyld
     updateAuthUI();
     
     const savedJson = localStorage.getItem(STORAGE_KEY);
@@ -218,6 +219,8 @@ function updateAuthUI() {
         if (permitType === 'nor_oat') {
             oatPrefix.textContent = "NOR-OAT-";
             oatPrefix.style.display = "flex";
+            // FIKS: Tilbakestill placeholder til standard når man velger norsk
+            oatInput.placeholder = placeholders[currentLang].oatNumber;
         } else {
             oatPrefix.style.display = "none";
             oatInput.placeholder = "XXX-OAT-YYY";
@@ -273,7 +276,6 @@ function saveFormData() {
     data.comCheck = document.getElementById('comCheck').checked;
     data.enduranceNA = document.getElementById('enduranceNA').checked;
     
-    // Lagre endurance feltene manuelt hvis de ikke fanges opp av form (de bør fanges opp av FormData, men for sikkerhets skyld)
     data.enduranceHours = document.getElementById('enduranceHours').value;
     data.enduranceMinutes = document.getElementById('enduranceMinutes').value;
 
@@ -328,7 +330,6 @@ function populateForm(data) {
 
     updateAuthUI();
     document.getElementById('comCheck').dispatchEvent(new Event('change'));
-    // Trigger update for N/A checkbox før vi setter verdier
     document.getElementById('enduranceNA').dispatchEvent(new Event('change'));
 
     if (data.enduranceHours) document.getElementById('enduranceHours').value = data.enduranceHours;
@@ -388,7 +389,6 @@ function validateAndAction(action) {
             }
         } 
         else if (input.id === 'enduranceHours' || input.id === 'enduranceMinutes') {
-            // Sjekkes bare hvis de er required (dvs ikke N/A)
             if (input.required && input.value === '') {
                 input.classList.add('error');
                 isValid = false;
@@ -478,7 +478,7 @@ function exportJSON() {
         data.oatNumberFull = data.oatNumber;
     }
 
-    // Endurance logic: Kombiner til streng hvis ikke N/A
+    // Endurance logic
     if (!document.getElementById('enduranceNA').checked) {
         const hh = document.getElementById('enduranceHours').value.padStart(2, '0');
         const mm = document.getElementById('enduranceMinutes').value.padStart(2, '0');
@@ -486,7 +486,6 @@ function exportJSON() {
     } else {
         data.endurance = "N/A";
     }
-    // Fjern rådata feltene fra JSON output hvis du vil ha det rent
     delete data.enduranceHours;
     delete data.enduranceMinutes;
 
@@ -514,7 +513,6 @@ function exportJSON() {
 function toggleLanguage() {
     currentLang = currentLang === 'no' ? 'en' : 'no';
     
-    // Oppdater URL med nytt språkvalg
     const newUrl = new URL(window.location);
     newUrl.searchParams.set('lang', currentLang);
     window.history.pushState({}, '', newUrl);
@@ -524,7 +522,6 @@ function toggleLanguage() {
 
 function applyTranslations(lang) {
     const btn = document.getElementById('langToggle');
-    // Vis flagget for språket man bytter TIL. Bruker flag-icons.
     if (lang === 'no') {
         btn.innerHTML = '<span class="fi fi-gb"></span> Switch to English';
     } else {

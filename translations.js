@@ -65,9 +65,9 @@ const translations = {
         // Seksjon 3
         sect3Header: "<i class='fa-solid fa-map-location-dot'></i> 3. Flyging og Rute",
         lblDepPlace: "<i class='fa-solid fa-plane-departure'></i> Avgangssted:",
-        lblDepTime: "<i class='fa-regular fa-clock'></i> Avgangstid (UTC):",
+        lblDepTime: "<i class='fa-regular fa-clock'></i> Avgangstid (UTC/Lokal):",
         lblArrPlace: "<i class='fa-solid fa-plane-arrival'></i> Landingssted:",
-        lblArrTime: "<i class='fa-regular fa-clock'></i> Landingstid (UTC):",
+        lblArrTime: "<i class='fa-regular fa-clock'></i> Landingstid (Estimert):",
         
         lblAltitude: "<i class='fa-solid fa-arrow-up-from-ground-water'></i> Planlagt Høyde:",
         lblSpeed: "<i class='fa-solid fa-gauge-high'></i> Cruising Speed:",
@@ -80,8 +80,8 @@ const translations = {
         lblComRadio: "Radio (VHF)",
         
         lblRouteMap: "<i class='fa-solid fa-map'></i> Ruteoversikt",
-        txtMapInstruction: "Tegn rute eller last opp fil", // NY
-        lblMapLegend: "Grønn markør = Avgang, Rød markør = Landing.", // NY
+        txtMapInstruction: "Tegn rute eller last opp fil",
+        lblMapLegend: "Grønn markør = Avgang, Rød markør = Landing.", 
         tooltipMap: "Støtter: KML, GPX, GeoJSON.<br>Verktøy: Google Earth, geojson.io.",
         btnMapClear: "Slett kartdata",
         msgMapError: "Kartdata mangler! Vennligst tegn en rute.",
@@ -166,9 +166,9 @@ const translations = {
 
         sect3Header: "<i class='fa-solid fa-map-location-dot'></i> 3. Flight and Route",
         lblDepPlace: "<i class='fa-solid fa-plane-departure'></i> Departure Place:",
-        lblDepTime: "<i class='fa-regular fa-clock'></i> Departure Time (UTC):",
+        lblDepTime: "<i class='fa-regular fa-clock'></i> Departure Time (UTC/Local):",
         lblArrPlace: "<i class='fa-solid fa-plane-arrival'></i> Landing Place:",
-        lblArrTime: "<i class='fa-regular fa-clock'></i> Landing Time (UTC):",
+        lblArrTime: "<i class='fa-regular fa-clock'></i> Landing Time (Estimated):",
         
         lblAltitude: "<i class='fa-solid fa-arrow-up-from-ground-water'></i> Planned Altitude:",
         lblSpeed: "<i class='fa-solid fa-gauge-high'></i> Cruising Speed:",
@@ -181,8 +181,8 @@ const translations = {
         lblComRadio: "Radio (VHF)",
 
         lblRouteMap: "<i class='fa-solid fa-map'></i> Route Overview",
-        txtMapInstruction: "Draw route or upload file", // NY
-        lblMapLegend: "Green marker = Departure, Red marker = Landing.", // NY
+        txtMapInstruction: "Draw route or upload file",
+        lblMapLegend: "Green marker = Departure, Red marker = Landing.",
         tooltipMap: "Supports: KML, GPX, GeoJSON.<br>Tools: Google Earth, geojson.io.",
         btnMapClear: "Clear Map Data",
         msgMapError: "Map data missing! Please draw a route.",
@@ -211,7 +211,7 @@ const placeholders = {
         manufacturer: "F.eks. DJI",
         model: "F.eks. Matrice 300",
         color: "F.eks. Oransje",
-        oatNumber: "",
+        oatNumber: "1234...", // Oppdatert
         cboNumber: "F.eks. SWE-CBO-123...",
         cboNotReq: "Ikke påkrevd",
         diploRef: "", 
@@ -222,7 +222,7 @@ const placeholders = {
         manufacturer: "E.g. DJI",
         model: "E.g. Matrice 300",
         color: "E.g. Orange",
-        oatNumber: "",
+        oatNumber: "1234...", // Oppdatert
         cboNumber: "E.g. SWE-CBO-123...",
         cboNotReq: "Not required",
         diploRef: "", 
