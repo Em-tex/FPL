@@ -34,27 +34,61 @@ header {
 }
 
 .header-wrapper {
-    max-width: 900px;
+    /* Full bredde for å gi plass til alt på en linje */
+    max-width: 100%;
     margin: 0 auto;
     padding: 0 20px;
+    box-sizing: border-box; 
 }
 
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
+    flex-wrap: nowrap; /* Hindrer at det hopper til neste linje */
 }
 
-.logo-group {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.logo-link {
+    flex-shrink: 0; 
 }
 
 .logo { height: 40px; width: auto; }
-h1 { margin: 0; font-size: 1.3rem; color: var(--primary-color); }
 
-/* Justering av flagg i knapp */
+h1 { 
+    margin: 0; 
+    font-size: 1.3rem; 
+    color: var(--primary-color);
+    flex-grow: 1; /* Tar all tilgjengelig plass i midten */
+    text-align: center; /* Sentrerer teksten */
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-lang {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* Responsiv header for små skjermer (mobil) */
+@media (max-width: 768px) {
+    .header-container {
+        flex-wrap: wrap; /* Tillat wrapping på mobil for leselighet */
+        justify-content: center;
+    }
+    h1 {
+        white-space: normal; 
+        order: 2;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .logo-link { order: 1; margin-right: auto; }
+    .btn-lang { order: 3; margin-left: auto; }
+}
+
+/* Flagg i knapp */
 .fi { margin-right: 8px; font-size: 1.1em; vertical-align: middle; }
 
 /* --- INTRO & CARDS --- */
@@ -217,8 +251,8 @@ small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3
     font-size: 11px;
     font-weight: bold;
     cursor: help;
-    font-family: sans-serif; /* Sikrer at "i" ser lik ut overalt */
-    line-height: normal; /* Fikser sentrering */
+    font-family: sans-serif; 
+    line-height: normal; 
 }
 .tooltip-text {
     visibility: hidden;

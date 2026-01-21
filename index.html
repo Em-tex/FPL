@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" href="favicon.png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"/>
     
     <link rel="stylesheet" href="style.css">
@@ -20,13 +19,13 @@
     <header>
         <div class="header-wrapper">
             <div class="header-container">
-                <div class="logo-group">
-                    <a href="https://www.luftfartstilsynet.no/droner/" id="logoLink" target="_blank" class="logo-link">
-                        <img src="logo.png" alt="Luftfartstilsynet Logo" class="logo">
-                    </a>
-                    <h1 data-i18n="mainHeader">Melding om grensekryssende droneflyging til Norge</h1>
-                </div>
-                <button id="langToggle" class="btn-lang no-print" onclick="toggleLanguage()"></button>
+                <a href="https://www.luftfartstilsynet.no/droner/" id="logoLink" target="_blank" class="logo-link">
+                    <img src="logo.png" alt="Luftfartstilsynet Logo" class="logo">
+                </a>
+                
+                <h1 data-i18n="mainHeader">Melding om grensekryssende droneflyging til Norge</h1>
+                
+                <button id="langToggle" class="btn-lang no-print" onclick="toggleLanguage()">🇬🇧 Switch to English</button>
             </div>
         </div>
     </header>
@@ -243,10 +242,10 @@
                         <div class="input-group">
                             <input type="number" id="altitudeVal" name="altitudeVal" required>
                             <select name="altitudeRef" id="altitudeRef" style="flex: 0 0 120px;">
+                                <option value="ft AGL">ft AGL</option>
                                 <option value="m AGL">m AGL</option>
                                 <option value="ft AMSL">ft AMSL</option>
                                 <option value="FL">Flight Level</option>
-                                <option value="ft AGL">ft AGL</option>
                             </select>
                         </div>
                     </div>
@@ -274,7 +273,7 @@
                         
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <div style="display: flex; align-items: center; gap: 5px;">
-                                <input type="number" id="enduranceHours" name="enduranceHours" placeholder="hh" min="0" class="input-short" required style="width: 70px; text-align: center;">
+                                <input type="number" id="enduranceHours" name="enduranceHours" placeholder="tt" min="0" class="input-short" required style="width: 70px; text-align: center;">
                                 <span style="font-weight: bold;">:</span>
                                 <input type="number" id="enduranceMinutes" name="enduranceMinutes" placeholder="mm" min="0" max="59" class="input-short" required style="width: 70px; text-align: center;">
                             </div>
