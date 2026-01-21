@@ -65,9 +65,9 @@ const translations = {
         // Seksjon 3
         sect3Header: "<i class='fa-solid fa-map-location-dot'></i> 3. Flyging og Rute",
         lblDepPlace: "<i class='fa-solid fa-plane-departure'></i> Avgangssted:",
-        lblDepTime: "<i class='fa-regular fa-clock'></i> Avgangstid (UTC/Lokal):",
+        lblDepTime: "<i class='fa-regular fa-clock'></i> Avgangstid (UTC):",
         lblArrPlace: "<i class='fa-solid fa-plane-arrival'></i> Landingssted:",
-        lblArrTime: "<i class='fa-regular fa-clock'></i> Landingstid (Estimert):",
+        lblArrTime: "<i class='fa-regular fa-clock'></i> Landingstid (UTC):",
         
         lblAltitude: "<i class='fa-solid fa-arrow-up-from-ground-water'></i> Planlagt Høyde:",
         lblSpeed: "<i class='fa-solid fa-gauge-high'></i> Cruising Speed:",
@@ -166,9 +166,9 @@ const translations = {
 
         sect3Header: "<i class='fa-solid fa-map-location-dot'></i> 3. Flight and Route",
         lblDepPlace: "<i class='fa-solid fa-plane-departure'></i> Departure Place:",
-        lblDepTime: "<i class='fa-regular fa-clock'></i> Departure Time (UTC/Local):",
+        lblDepTime: "<i class='fa-regular fa-clock'></i> Departure Time (UTC):",
         lblArrPlace: "<i class='fa-solid fa-plane-arrival'></i> Landing Place:",
-        lblArrTime: "<i class='fa-regular fa-clock'></i> Landing Time (Estimated):",
+        lblArrTime: "<i class='fa-regular fa-clock'></i> Landing Time (UTC):",
         
         lblAltitude: "<i class='fa-solid fa-arrow-up-from-ground-water'></i> Planned Altitude:",
         lblSpeed: "<i class='fa-solid fa-gauge-high'></i> Cruising Speed:",
