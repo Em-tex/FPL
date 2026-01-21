@@ -6,6 +6,8 @@
     <title data-i18n="pageTitle">Melding om grensekryssende droneflyging til Norge</title>
     <link rel="icon" type="image/png" href="favicon.png">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="style.css">
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -36,7 +38,7 @@
         <form id="flightForm" novalidate>
             
             <section class="card form-section">
-                <h2 data-i18n="sect1Header">1. Operatør og Tillatelser</h2>
+                <h2 data-i18n="sect1Header"><i class="fa-solid fa-address-card"></i> 1. Operatør og Tillatelser</h2>
                 
                 <div class="grid-2">
                     <div class="form-group full-width">
@@ -64,7 +66,7 @@
                 </div>
 
                 <div class="sub-section">
-                    <h3 data-i18n="subHeaderAuth">Kategori og Autorisasjoner</h3>
+                    <h3 data-i18n="subHeaderAuth"><i class="fa-solid fa-file-contract"></i> Kategori og Autorisasjoner</h3>
                     
                     <div class="form-group full-width">
                         <label for="flightCategory" data-i18n="lblFlightCategory">Luftfartskategori:</label>
@@ -118,8 +120,13 @@
                             <label for="stateNat" data-i18n="lblStateNat">Operatørens nasjonalitet:</label>
                             <select id="stateNat" name="stateNat">
                                 <option value="NO" data-i18n="optNatNo">Norge</option>
-                                <option value="Foreign" data-i18n="optNatForeign">Annet land</option>
+                                <option value="Other" data-i18n="optNatOther">Annet (Spesifiser)</option>
                             </select>
+                        </div>
+                        
+                        <div class="form-group hidden" id="stateNatOtherContainer">
+                             <label for="stateNatOther" class="required" data-i18n="lblStateNatOther">Spesifiser nasjonalitet:</label>
+                             <input type="text" id="stateNatOther" name="stateNatOther">
                         </div>
 
                         <div class="form-group hidden" id="diploRefContainer">
@@ -131,7 +138,7 @@
             </section>
 
             <section class="card form-section">
-                <h2 data-i18n="sect2Header">2. Fartøy (Drone)</h2>
+                <h2 data-i18n="sect2Header"><i class="fa-solid fa-plane"></i> 2. Fartøy (Drone)</h2>
                 <div class="grid-2">
                     <div class="form-group">
                         <label for="manufacturer" class="required" data-i18n="lblManufacturer">Produsent:</label>
@@ -204,7 +211,7 @@
             </section>
 
             <section class="card form-section">
-                <h2 data-i18n="sect3Header">3. Flyging og Rute</h2>
+                <h2 data-i18n="sect3Header"><i class="fa-solid fa-map-location-dot"></i> 3. Flyging og Rute</h2>
                 
                 <div class="grid-2">
                     <div class="form-group">
@@ -308,8 +315,13 @@
                 </div>
             </section>
 
-            <div class="actions no-print" style="justify-content: space-between;">
-                <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="btnReset">Tøm skjema</button>
+            <div class="actions no-print" style="justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="btnReset">Tøm skjema</button>
+                    <input type="file" id="jsonLoader" accept=".json" style="display: none;" onchange="handleJsonUpload(event)">
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('jsonLoader').click()" data-i18n="btnImport">Last opp lagret skjema (JSON)</button>
+                </div>
+                
                 <div style="display: flex; gap: 10px;">
                     <button type="button" class="btn btn-secondary" onclick="validateAndAction('json')" data-i18n="btnJson">Last ned Data (JSON)</button>
                     <button type="button" class="btn btn-primary" onclick="validateAndAction('print')" data-i18n="btnPdf">Last ned / Skriv ut (PDF)</button>
@@ -317,7 +329,7 @@
             </div>
 
             <div class="info-box form-section">
-                <h3 data-i18n="infoBoxHeader">Innsending</h3>
+                <h3 data-i18n="infoBoxHeader"><i class="fa-solid fa-paper-plane"></i> Innsending</h3>
                 <p data-i18n="infoSendTo">Sendes til:</p>
                 <ul class="email-list">
                     <li data-i18n="emailCaa"><strong>Luftfartstilsynet:</strong> postmottak@caa.no</li>

@@ -5,41 +5,43 @@ const translations = {
         txtOpenCatNote: "<strong>Merk:</strong> Flyging i <em>åpen kategori</em> krever ikke innsending av dette skjemaet.",
         
         // Seksjon 1
-        sect1Header: "1. Operatør og Tillatelser",
-        lblOperatorName: "Operatørnavn:",
-        lblOperatorEmail: "Operatør E-post:",
-        lblOperatorPhone: "Operatør Telefon:",
+        sect1Header: "<i class='fa-solid fa-address-card'></i> 1. Operatør og Tillatelser",
+        lblOperatorName: "<i class='fa-solid fa-user-tie'></i> Operatørnavn:",
+        lblOperatorEmail: "<i class='fa-solid fa-envelope'></i> Operatør E-post:",
+        lblOperatorPhone: "<i class='fa-solid fa-phone'></i> Operatør Telefon:",
         
-        lblPilotName: "Fartøysjef (Pilot in Command):",
-        lblPilotPhone: "Fartøysjefens telefon:",
+        lblPilotName: "<i class='fa-solid fa-id-badge'></i> Fartøysjef (Pilot in Command):",
+        lblPilotPhone: "<i class='fa-solid fa-mobile-screen'></i> Fartøysjefens telefon:",
         
-        subHeaderAuth: "Kategori og Autorisasjoner",
-        lblFlightCategory: "Luftfartskategori:",
+        subHeaderAuth: "<i class='fa-solid fa-file-contract'></i> Kategori og Autorisasjoner",
+        lblFlightCategory: "<i class='fa-solid fa-layer-group'></i> Luftfartskategori:",
         optCivil: "Sivil Luftfart (EASA)",
         optState: "Militær / Statsluftfart (Non-EASA)",
         
-        lblPermitType: "Operasjonstillatelse:",
+        lblPermitType: "<i class='fa-solid fa-stamp'></i> Operasjonstillatelse:",
         optNorOat: "Norsk operasjonstillatelse (NOR-OAT)",
         optEasaOat: "Operasjonstillatelse fra annet EASA land",
         
-        lblOat: "OAT-nummer:",
-        lblCbo: "Cross border tillatelse (CBO):",
+        lblOat: "<i class='fa-solid fa-hashtag'></i> OAT-nummer:",
+        lblCbo: "<i class='fa-solid fa-globe'></i> Cross border tillatelse (CBO):",
         helpCbo: "Kreves for utenlandske operatører, eller norske operatører utenfor int. farvann.",
         chkIntWaters: "Passering til/fra internasjonalt farvann",
         
-        lblStateNat: "Operatørens nasjonalitet:",
+        lblStateNat: "<i class='fa-solid fa-flag'></i> Operatørens nasjonalitet:",
         optNatNo: "Norge",
-        optNatForeign: "Annet land",
-        lblDiplo: "Referanse for diplomatisk klarering:",
+        optNatOther: "Annet / Other", 
+        lblStateNatOther: "Spesifiser nasjonalitet:",
+
+        lblDiplo: "<i class='fa-solid fa-scroll'></i> Referanse for diplomatisk klarering:",
         txtDiploNote: "Diplomatisk klarering kreves for utenlandsk statsluftfart.",
 
         // Seksjon 2
-        sect2Header: "2. Fartøy (Drone)",
-        lblManufacturer: "Produsent:",
-        lblModel: "Modell:",
-        lblMtom: "MTOM (kg):", 
-        lblPowerplant: "Drivlinje:",
-        lblDroneType: "Fartøytype:",
+        sect2Header: "<i class='fa-solid fa-plane'></i> 2. Fartøy (Drone)",
+        lblManufacturer: "<i class='fa-solid fa-industry'></i> Produsent:",
+        lblModel: "<i class='fa-solid fa-tag'></i> Modell:",
+        lblMtom: "<i class='fa-solid fa-weight-hanging'></i> MTOM (kg):", 
+        lblPowerplant: "<i class='fa-solid fa-cogs'></i> Drivlinje:",
+        lblDroneType: "<i class='fa-solid fa-dragon'></i> Fartøytype:",
         
         optFixedWing: "Fixed Wing (Fly)",
         optHelicopter: "Helikopter",
@@ -47,37 +49,37 @@ const translations = {
         optHybrid: "Hybrid (VTOL)",
         optOther: "Annet",
         
-        optElectric: "Elektrisk",
-        optPiston: "Stempelmotor",
+        optElectric: "Elektrisk (Batteri)",
+        optPiston: "Stempelmotor / Hybrid",
         optTurbine: "Turbin / Jet",
-        optNone: "Ingen",
+        optNone: "Ingen (Glidefly/Ballong)",
 
-        lblColor: "Farge / Kjennetegn:",
-        lblEc: "Elektronisk Synlighet:",
+        lblColor: "<i class='fa-solid fa-palette'></i> Farge / Kjennetegn:",
+        lblEc: "<i class='fa-solid fa-wifi'></i> Elektronisk Synlighet:",
         lblEcNone: "Ingen",
         lblEcOther: "Annet",
         
-        lblRidOpNum: "UAS Operatørnummer (fra Remote ID):",
+        lblRidOpNum: "<i class='fa-solid fa-fingerprint'></i> UAS Operatørnummer (fra Remote ID):",
         helpRidOpNum: "Må bestå av nøyaktig 16 tegn (a-z, 0-9). Ingen bindestreker eller spesialtegn.",
 
         // Seksjon 3
-        sect3Header: "3. Flyging og Rute",
-        lblDepPlace: "Avgangssted:",
-        lblDepTime: "Avgangstid (UTC/Lokal):",
-        lblArrPlace: "Landingssted:",
-        lblArrTime: "Landingstid (Estimert):",
+        sect3Header: "<i class='fa-solid fa-map-location-dot'></i> 3. Flyging og Rute",
+        lblDepPlace: "<i class='fa-solid fa-plane-departure'></i> Avgangssted:",
+        lblDepTime: "<i class='fa-regular fa-clock'></i> Avgangstid (UTC/Lokal):",
+        lblArrPlace: "<i class='fa-solid fa-plane-arrival'></i> Landingssted:",
+        lblArrTime: "<i class='fa-regular fa-clock'></i> Landingstid (Estimert):",
         
-        lblAltitude: "Planlagt Høyde:",
-        lblSpeed: "Cruising Speed:",
-        lblEndurance: "Endurance (hh:mm):",
+        lblAltitude: "<i class='fa-solid fa-arrow-up-from-ground-water'></i> Planlagt Høyde:",
+        lblSpeed: "<i class='fa-solid fa-gauge-high'></i> Cruising Speed:",
+        lblEndurance: "<i class='fa-solid fa-hourglass-half'></i> Endurance (hh:mm):",
         lblNA: "N/A (Ikke relevant)",
         tooltipEndurance: "Hvor lenge dronen kan fly før den går tom for energi. Bruk hh:mm format.",
         
-        lblRadio: "Vil ha kommunikasjon med ATC",
+        lblRadio: "<i class='fa-solid fa-headset'></i> Vil ha kommunikasjon med ATC",
         lblComPhone: "Telefon",
         lblComRadio: "Radio (VHF)",
         
-        lblRouteMap: "Ruteoversikt",
+        lblRouteMap: "<i class='fa-solid fa-map'></i> Ruteoversikt",
         txtMapHelp: "Tegn rute. Grønn markør = Start, Rød markør = Slutt.",
         tooltipMap: "Støtter: KML, GPX, GeoJSON.<br>Verktøy: Google Earth, geojson.io.",
         btnMapClear: "Slett kartdata",
@@ -86,20 +88,18 @@ const translations = {
         btnJson: "Last ned Data (JSON)",
         btnPdf: "Last ned / Skriv ut (PDF)",
         btnReset: "Tøm skjema",
+        btnImport: "Last opp lagret skjema (JSON)",
         
-        // Footer & Innsending
-        infoBoxHeader: "Innsending",
+        infoBoxHeader: "<i class='fa-solid fa-paper-plane'></i> Innsending",
         infoSendTo: "Sendes til:",
         emailCaa: "<strong>Luftfartstilsynet:</strong> postmottak@caa.no",
         
-        // Oppdaterte e-post linjer
         emailToll: "<strong>Toll:</strong> [E-postadresse]",
         emailForsvar: "<strong>Forsvaret (NAOC/NJHQ):</strong> [E-postadresse]",
         emailAvinor: "<strong>Avinor (lokal TWR/ATCC):</strong> [E-postadresse]",
         
         lblCopyEmails: "Kopieringsvennlig linje:",
         disclaimerTitle: "Merk:",
-        // Oppdatert footer med NSM link
         footerBaseText: "Operatøren er ansvarlig for alle tillatelser. Utenlandske UAS-operatører må melde fra til NSM om all sensorbruk. Se <a href='https://nsm.no/fysisk/luftbarne-sensorsystemer/' target='_blank'>NSM</a>."
     },
     en: {
@@ -107,40 +107,42 @@ const translations = {
         mainHeader: "Notification of Border-Crossing Drone Operation to Norway",
         txtOpenCatNote: "<strong>Note:</strong> Flights in the <em>Open Category</em> do not require submission of this form.",
         
-        sect1Header: "1. Operator and Permissions",
-        lblOperatorName: "Operator Name:",
-        lblOperatorEmail: "Operator Email:",
-        lblOperatorPhone: "Operator Phone:",
+        sect1Header: "<i class='fa-solid fa-address-card'></i> 1. Operator and Permissions",
+        lblOperatorName: "<i class='fa-solid fa-user-tie'></i> Operator Name:",
+        lblOperatorEmail: "<i class='fa-solid fa-envelope'></i> Operator Email:",
+        lblOperatorPhone: "<i class='fa-solid fa-phone'></i> Operator Phone:",
         
-        lblPilotName: "Pilot in Command Name:",
-        lblPilotPhone: "Pilot in Command Phone:",
+        lblPilotName: "<i class='fa-solid fa-id-badge'></i> Pilot in Command Name:",
+        lblPilotPhone: "<i class='fa-solid fa-mobile-screen'></i> Pilot in Command Phone:",
         
-        subHeaderAuth: "Category and Authorisations",
-        lblFlightCategory: "Flight Category:",
+        subHeaderAuth: "<i class='fa-solid fa-file-contract'></i> Category and Authorisations",
+        lblFlightCategory: "<i class='fa-solid fa-layer-group'></i> Flight Category:",
         optCivil: "Civil Aviation (EASA)",
         optState: "Military / State Aviation (Non-EASA)",
         
-        lblPermitType: "Operation Permit:",
+        lblPermitType: "<i class='fa-solid fa-stamp'></i> Operation Permit:",
         optNorOat: "Norwegian Operation Permit (NOR-OAT)",
         optEasaOat: "Permit from other EASA member state",
         
-        lblOat: "OAT Number:",
-        lblCbo: "Cross Border Permit (CBO):",
+        lblOat: "<i class='fa-solid fa-hashtag'></i> OAT Number:",
+        lblCbo: "<i class='fa-solid fa-globe'></i> Cross Border Permit (CBO):",
         helpCbo: "Required for foreign operators, or Norwegian operators outside int. waters.",
         chkIntWaters: "Crossing to/from International Waters",
         
-        lblStateNat: "Operator Nationality:",
+        lblStateNat: "<i class='fa-solid fa-flag'></i> Operator Nationality:",
         optNatNo: "Norway",
-        optNatForeign: "Foreign Country",
-        lblDiplo: "Diplomatic Clearance Reference:",
+        optNatOther: "Other",
+        lblStateNatOther: "Specify Nationality:",
+
+        lblDiplo: "<i class='fa-solid fa-scroll'></i> Diplomatic Clearance Reference:",
         txtDiploNote: "Diplomatic clearance is required for foreign state aviation.",
 
-        sect2Header: "2. Aircraft (UAS)",
-        lblManufacturer: "Manufacturer:",
-        lblModel: "Model:",
-        lblMtom: "MTOM (kg):",
-        lblPowerplant: "Powerplant:",
-        lblDroneType: "Aircraft Type:",
+        sect2Header: "<i class='fa-solid fa-plane'></i> 2. Aircraft (UAS)",
+        lblManufacturer: "<i class='fa-solid fa-industry'></i> Manufacturer:",
+        lblModel: "<i class='fa-solid fa-tag'></i> Model:",
+        lblMtom: "<i class='fa-solid fa-weight-hanging'></i> MTOM (kg):",
+        lblPowerplant: "<i class='fa-solid fa-cogs'></i> Powerplant:",
+        lblDroneType: "<i class='fa-solid fa-dragon'></i> Aircraft Type:",
         
         optFixedWing: "Fixed Wing",
         optHelicopter: "Helicopter",
@@ -148,36 +150,36 @@ const translations = {
         optHybrid: "Hybrid (VTOL)",
         optOther: "Other",
 
-        optElectric: "Electric",
+        optElectric: "Electric (Battery)",
         optPiston: "Piston / Hybrid",
         optTurbine: "Turbine / Jet",
-        optNone: "None",
+        optNone: "None (Glider/Balloon)",
 
-        lblColor: "Color / Markings:",
-        lblEc: "Electronic Conspicuity:",
+        lblColor: "<i class='fa-solid fa-palette'></i> Color / Markings:",
+        lblEc: "<i class='fa-solid fa-wifi'></i> Electronic Conspicuity:",
         lblEcNone: "None",
         lblEcOther: "Other",
 
-        lblRidOpNum: "UAS Operator Number (from Remote ID):",
+        lblRidOpNum: "<i class='fa-solid fa-fingerprint'></i> UAS Operator Number (from Remote ID):",
         helpRidOpNum: "Must consist of exactly 16 characters (a-z, 0-9). No hyphens.",
 
-        sect3Header: "3. Flight and Route",
-        lblDepPlace: "Departure Place:",
-        lblDepTime: "Departure Time (UTC/Local):",
-        lblArrPlace: "Landing Place:",
-        lblArrTime: "Landing Time (Estimated):",
+        sect3Header: "<i class='fa-solid fa-map-location-dot'></i> 3. Flight and Route",
+        lblDepPlace: "<i class='fa-solid fa-plane-departure'></i> Departure Place:",
+        lblDepTime: "<i class='fa-regular fa-clock'></i> Departure Time (UTC/Local):",
+        lblArrPlace: "<i class='fa-solid fa-plane-arrival'></i> Landing Place:",
+        lblArrTime: "<i class='fa-regular fa-clock'></i> Landing Time (Estimated):",
         
-        lblAltitude: "Planned Altitude:",
-        lblSpeed: "Cruising Speed:",
-        lblEndurance: "Endurance (hh:mm):",
+        lblAltitude: "<i class='fa-solid fa-arrow-up-from-ground-water'></i> Planned Altitude:",
+        lblSpeed: "<i class='fa-solid fa-gauge-high'></i> Cruising Speed:",
+        lblEndurance: "<i class='fa-solid fa-hourglass-half'></i> Endurance (hh:mm):",
         lblNA: "N/A (Not applicable)",
         tooltipEndurance: "Flight time before energy depletion. Use hh:mm format.",
 
-        lblRadio: "Will have communication with ATC",
+        lblRadio: "<i class='fa-solid fa-headset'></i> Will have communication with ATC",
         lblComPhone: "Phone",
         lblComRadio: "Radio (VHF)",
 
-        lblRouteMap: "Route Overview",
+        lblRouteMap: "<i class='fa-solid fa-map'></i> Route Overview",
         txtMapHelp: "Draw route. Green marker = Start, Red marker = End.",
         tooltipMap: "Supports: KML, GPX, GeoJSON.<br>Tools: Google Earth, geojson.io.",
         btnMapClear: "Clear Map Data",
@@ -186,19 +188,18 @@ const translations = {
         btnJson: "Download Data (JSON)",
         btnPdf: "Download / Print (PDF)",
         btnReset: "Clear Form",
+        btnImport: "Upload Saved Form (JSON)",
         
-        infoBoxHeader: "Submission",
+        infoBoxHeader: "<i class='fa-solid fa-paper-plane'></i> Submission",
         infoSendTo: "Send to:",
         emailCaa: "<strong>CAA Norway:</strong> postmottak@caa.no",
         
-        // Updated email lines
         emailToll: "<strong>Customs:</strong> [Email Address]",
         emailForsvar: "<strong>Armed Forces (NAOC/NJHQ):</strong> [Email Address]",
         emailAvinor: "<strong>Avinor (local TWR/ATCC):</strong> [Email Address]",
         
         lblCopyEmails: "Copy-paste string:",
         disclaimerTitle: "Note:",
-        // Updated footer with NSM link
         footerBaseText: "The operator is responsible for permissions. Foreign UAS operators must report all sensor usage to NSM. See <a href='https://nsm.no/areas-of-expertise/physical-security/airborne-sensor-systems/' target='_blank'>NSM</a>."
     }
 };
@@ -211,7 +212,7 @@ const placeholders = {
         oatNumber: "F.eks. UAS-NO-...",
         cboNumber: "F.eks. SWE-CBO-123...",
         cboNotReq: "Ikke påkrevd",
-        diploRef: "Ref.nr...",
+        diploRef: "", // Fjernet Ref.nr
         typeOtherText: "Beskriv...",
         ecOtherText: "Beskriv utstyr..."
     },
@@ -222,7 +223,7 @@ const placeholders = {
         oatNumber: "E.g. UAS-NO-...",
         cboNumber: "E.g. SWE-CBO-123...",
         cboNotReq: "Not required",
-        diploRef: "Ref.no...",
+        diploRef: "", // Removed Ref.no
         typeOtherText: "Describe...",
         ecOtherText: "Describe equipment..."
     }

@@ -84,6 +84,7 @@ h2 {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+h2 i { margin-right: 8px; }
 
 .sub-section {
     margin-top: 25px;
@@ -96,6 +97,7 @@ h2 {
     margin-bottom: 15px;
     margin-top: 0;
 }
+.sub-section h3 i { margin-right: 6px; }
 
 /* --- GRID & INPUTS --- */
 .grid-2 {
@@ -117,7 +119,13 @@ label {
     color: #444;
 }
 
-/* Rød stjerne for required felter */
+label i {
+    color: var(--primary-color);
+    margin-right: 5px;
+    width: 16px;
+    text-align: center;
+}
+
 label.required::after {
     content: " *";
     color: var(--error-color);
@@ -137,7 +145,6 @@ select, textarea {
     background-color: #fff;
 }
 
-/* Validation styles */
 input.error, select.error, .input-prefix-group.error {
     border-color: var(--error-color);
     background-color: var(--error-bg);
@@ -149,12 +156,10 @@ input.error, select.error, .input-prefix-group.error {
     margin-top: 5px;
 }
 
-/* INPUT GROUPS */
 .input-group { display: flex; height: var(--input-height); }
 .input-group input { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; flex: 1; }
 .input-group select { border-top-left-radius: 0; border-bottom-left-radius: 0; background-color: #f9f9f9; flex: none; }
 
-/* PREFIX GROUP (For OAT) */
 .input-prefix-group {
     display: flex;
     height: var(--input-height);
@@ -182,12 +187,10 @@ input.error, select.error, .input-prefix-group.error {
     box-shadow: none;
     background-color: #fff;
 }
-/* Fokus effekt på hele gruppen */
 .input-prefix-group:focus-within {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(0, 48, 87, 0.1);
 }
-
 
 small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3px; }
 .info-notice { background: #e3f2fd; padding: 10px; border-radius: 4px; border: 1px solid #bbdefb; font-size: 0.85rem; }
@@ -211,7 +214,8 @@ small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3
     font-size: 11px;
     font-weight: bold;
     cursor: help;
-    font-style: normal;
+    font-family: sans-serif; /* Sikrer at "i" ser lik ut overalt */
+    line-height: normal; /* Fikser sentrering */
 }
 .tooltip-text {
     visibility: hidden;
@@ -297,6 +301,7 @@ small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3
 .email-copy-container { background: #fff; border: 1px solid #ccc; padding: 10px; margin-top: 15px; }
 .email-copy-field { background: #f9f9f9; padding: 5px; border: 1px solid #e0e0e0; font-family: monospace; font-size: 0.8rem; }
 .disclaimer { font-size: 0.75rem; margin-top: 15px; border-top: 1px solid #cfe2ff; padding-top: 10px; }
+.disclaimer a { color: var(--primary-color); text-decoration: underline; }
 
 @media print {
     body { background: #fff; font-size: 10pt; }

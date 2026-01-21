@@ -6,11 +6,18 @@ const STORAGE_KEY = 'drone_flight_form_data';
 document.addEventListener('DOMContentLoaded', () => {
     initMap();
     setupEventListeners();
+    applyTranslations(currentLang);
     updateAuthUI();
-    loadFormData(); 
+    
+    // Prøv å laste fra localstorage ved start
+    const savedJson = localStorage.getItem(STORAGE_KEY);
+    if(savedJson) {
+        try {
+            populateForm(JSON.parse(savedJson));
+        } catch(e) { console.error("Could not load saved data", e); }
+    }
 });
 
-// --- KART OG MARKØRER ---
 function initMap() {
     map = L.map('map').setView([65.0, 13.0], 4);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -71,19 +78,15 @@ function clearMap() {
     saveFormData();
 }
 
-
-// --- UI LOGIKK & LAGRING ---
 function setupEventListeners() {
     document.getElementById('fileUpload').addEventListener('change', handleFileUpload);
     
-    // Auto-save
     const inputs = document.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {
         input.addEventListener('change', saveFormData);
         input.addEventListener('input', saveFormData);
     });
 
-    // EC logikk
     const ecNone = document.getElementById('ecNone');
     const ecOtherCheck = document.getElementById('ecOtherCheck');
     const ecRemoteId = document.getElementById('ecRemoteId');
@@ -95,13 +98,11 @@ function setupEventListeners() {
             ecOtherCheck.checked = false; 
             ecOtherCheck.disabled = true;
             document.getElementById('ecOtherContainer').classList.add('hidden');
-            // Hide Remote ID field too
             document.getElementById('ridOpNumContainer').classList.add('hidden');
             document.getElementById('ridOpNum').required = false;
         } else {
             ecCheckboxes.forEach(cb => cb.disabled = false);
             ecOtherCheck.disabled = false;
-            // Check current status of Remote ID
             if(ecRemoteId.checked) {
                 document.getElementById('ridOpNumContainer').classList.remove('hidden');
                 document.getElementById('ridOpNum').required = true;
@@ -116,7 +117,6 @@ function setupEventListeners() {
         else cont.classList.add('hidden');
     });
 
-    // Remote ID logic
     ecRemoteId.addEventListener('change', function() {
         const cont = document.getElementById('ridOpNumContainer');
         const input = document.getElementById('ridOpNum');
@@ -126,13 +126,11 @@ function setupEventListeners() {
         } else {
             cont.classList.add('hidden');
             input.required = false;
-            input.value = ""; // Clear if unchecked
+            input.value = ""; 
         }
     });
 
-    // Character counter for Operator Number
     document.getElementById('ridOpNum').addEventListener('input', function() {
-        // Enforce alphanumeric
         this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
         const count = this.value.length;
         document.getElementById('ridCounter').textContent = `${count}/16`;
@@ -150,7 +148,6 @@ function setupEventListeners() {
         else cont.classList.add('hidden');
     });
 
-    // Endurance logic
     const enduranceInput = document.getElementById('endurance');
     const enduranceNA = document.getElementById('enduranceNA');
     
@@ -168,7 +165,6 @@ function setupEventListeners() {
         }
     });
 
-    // ATC logic
     const comCheck = document.getElementById('comCheck');
     const comOptions = document.getElementById('comOptions');
     comCheck.addEventListener('change', function() {
@@ -179,7 +175,6 @@ function setupEventListeners() {
         }
     });
 
-    // Auth triggers
     ['flightCategory', 'permitType', 'stateNat', 'isIntWaters'].forEach(id => {
         const el = document.getElementById(id);
         if(el) el.addEventListener('change', updateAuthUI);
@@ -200,12 +195,15 @@ function updateAuthUI() {
     const stateNat = document.getElementById('stateNat').value; 
     const diploContainer = document.getElementById('diploRefContainer');
     const diploInput = document.getElementById('diploRef');
+    const stateNatOtherCont = document.getElementById('stateNatOtherContainer');
+    const stateNatOtherInput = document.getElementById('stateNatOther');
 
     if (category === 'Civil') {
         civilCont.classList.remove('hidden');
         stateCont.classList.add('hidden');
         oatInput.required = true;
         diploInput.required = false;
+        stateNatOtherInput.required = false;
 
         if (permitType === 'nor_oat') {
             oatPrefix.textContent = "NOR-OAT-";
@@ -236,17 +234,26 @@ function updateAuthUI() {
         oatInput.required = false;
         cboInput.required = false;
 
-        if (stateNat === 'Foreign') {
+        // Nasjonalitet logikk
+        if (stateNat === 'Other') {
+            stateNatOtherCont.classList.remove('hidden');
+            stateNatOtherInput.required = true;
+            diploContainer.classList.remove('hidden');
+            diploInput.required = true;
+        } else if (stateNat === 'Foreign') { // Bakoverkompatibilitet
+            stateNatOtherCont.classList.remove('hidden'); 
             diploContainer.classList.remove('hidden');
             diploInput.required = true;
         } else {
+            // Norge
+            stateNatOtherCont.classList.add('hidden');
+            stateNatOtherInput.required = false;
             diploContainer.classList.add('hidden');
             diploInput.required = false;
         }
     }
 }
 
-// --- LAGRING TIL LOCALSTORAGE ---
 function saveFormData() {
     const form = document.getElementById('flightForm');
     const formData = new FormData(form);
@@ -265,64 +272,95 @@ function saveFormData() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-function loadFormData() {
-    const json = localStorage.getItem(STORAGE_KEY);
-    if (!json) return;
-    
-    try {
-        const data = JSON.parse(json);
-        
-        for (const [key, value] of Object.entries(data)) {
-            const el = document.getElementById(key);
-            if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA')) {
-                 if(el.type !== 'checkbox' && el.type !== 'file') el.value = value;
-            }
+// Funksjon for å laste inn JSON fil
+function handleJsonUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            populateForm(data);
+            alert("Skjema lastet inn!");
+        } catch (error) {
+            console.error(error);
+            alert("Feil ved lesing av JSON-fil.");
         }
-        
-        if (data.ec) data.ec.forEach(val => {
-            const cb = document.querySelector(`input[name="ec"][value="${val}"]`);
-            if(cb) cb.checked = true;
-        });
-        if (data.comMethods) data.comMethods.forEach(val => {
-            const cb = document.querySelector(`input[name="comMethods"][value="${val}"]`);
-            if(cb) cb.checked = true;
-        });
-        if(data.isIntWaters !== undefined) document.getElementById('isIntWaters').checked = data.isIntWaters;
-        if(data.comCheck !== undefined) document.getElementById('comCheck').checked = data.comCheck;
-        if(data.enduranceNA !== undefined) document.getElementById('enduranceNA').checked = data.enduranceNA;
-
-        // Trigger updates
-        updateAuthUI();
-        document.getElementById('comCheck').dispatchEvent(new Event('change'));
-        document.getElementById('enduranceNA').dispatchEvent(new Event('change'));
-        if(data.ec && data.ec.includes('None')) document.getElementById('ecNone').dispatchEvent(new Event('change'));
-        if(data.ec && data.ec.includes('Annet')) document.getElementById('ecOtherCheck').dispatchEvent(new Event('change'));
-        // Trigger Remote ID logic specifically
-        if(data.ec && data.ec.includes('Remote ID')) {
-             document.getElementById('ecRemoteId').dispatchEvent(new Event('change'));
-             if(data.ridOpNum) {
-                 document.getElementById('ridOpNum').value = data.ridOpNum;
-                 document.getElementById('ridOpNum').dispatchEvent(new Event('input')); // update counter
-             }
-        }
-
-        document.getElementById('droneType').dispatchEvent(new Event('change'));
-
-        if (data.mapGeoJSON) {
-            const layer = L.geoJSON(data.mapGeoJSON);
-            layer.eachLayer(l => {
-                drawnItems.addLayer(l);
-            });
-            if(layer.getLayers().length > 0 && layer.getBounds().isValid()) {
-                map.fitBounds(layer.getBounds());
-            }
-            document.getElementById('mapError').classList.add('hidden');
-        }
-
-    } catch (e) {
-        console.error("Feil ved lasting av data", e);
-    }
+    };
+    reader.readAsText(file);
+    // Reset input slik at man kan laste samme fil igjen
+    event.target.value = '';
 }
+
+// Felles funksjon for å fylle skjemaet (fra LocalStorage eller Fil)
+function populateForm(data) {
+    // 1. Fyll standard input felt
+    for (const [key, value] of Object.entries(data)) {
+        const el = document.getElementById(key);
+        if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA')) {
+                if(el.type !== 'checkbox' && el.type !== 'file') el.value = value;
+        }
+    }
+    
+    // 2. Nullstill og sett checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    
+    if (data.ec) data.ec.forEach(val => {
+        const cb = document.querySelector(`input[name="ec"][value="${val}"]`);
+        if(cb) cb.checked = true;
+    });
+    if (data.comMethods) data.comMethods.forEach(val => {
+        const cb = document.querySelector(`input[name="comMethods"][value="${val}"]`);
+        if(cb) cb.checked = true;
+    });
+    
+    if(data.isIntWaters) document.getElementById('isIntWaters').checked = true;
+    if(data.comCheck) document.getElementById('comCheck').checked = true;
+    if(data.enduranceNA) document.getElementById('enduranceNA').checked = true;
+
+    // 3. Trigger events for å oppdatere UI (vis/skjul felt)
+    updateAuthUI();
+    document.getElementById('comCheck').dispatchEvent(new Event('change'));
+    document.getElementById('enduranceNA').dispatchEvent(new Event('change'));
+    
+    if(data.ec && data.ec.includes('None')) document.getElementById('ecNone').dispatchEvent(new Event('change'));
+    if(data.ec && data.ec.includes('Annet')) document.getElementById('ecOtherCheck').dispatchEvent(new Event('change'));
+    
+    if(data.ec && data.ec.includes('Remote ID')) {
+            document.getElementById('ecRemoteId').dispatchEvent(new Event('change'));
+            if(data.ridOpNum) {
+                document.getElementById('ridOpNum').value = data.ridOpNum;
+                document.getElementById('ridOpNum').dispatchEvent(new Event('input')); 
+            }
+    }
+
+    document.getElementById('droneType').dispatchEvent(new Event('change'));
+
+    // 4. Tegn kartet
+    drawnItems.clearLayers();
+    if (data.mapGeoJSON) {
+        const layer = L.geoJSON(data.mapGeoJSON);
+        layer.eachLayer(l => {
+            drawnItems.addLayer(l);
+            // Legg til markører på nytt ved å simulere event eller kalle logikk?
+            // Enklest her er å stole på initMap's draw:created, men siden vi laster programmatisk
+            // må vi kalle hjelpefunksjonen vår hvis vi vil ha ikonene:
+            // (Du må ha tilgang til ikonene eller opprette dem på nytt her. 
+            // For enkelhets skyld i denne versjonen dropper vi ikon-gjenskaping ved import 
+            // med mindre vi flytter ikon-definisjonene ut av initMap. 
+            // Men ruten vises!)
+        });
+        if(layer.getLayers().length > 0 && layer.getBounds().isValid()) {
+            map.fitBounds(layer.getBounds());
+        }
+        document.getElementById('mapError').classList.add('hidden');
+    }
+    
+    // Lagre til localstorage slik at det huskes ved refresh
+    saveFormData();
+}
+
 
 function clearForm() {
     if(confirm("Er du sikker på at du vil tømme skjemaet?")) {
@@ -331,14 +369,12 @@ function clearForm() {
     }
 }
 
-// --- VALIDERING OG ACTION ---
 function validateAndAction(action) {
     const form = document.getElementById('flightForm');
     const inputs = form.querySelectorAll('input[required]:not([disabled]), select[required]:not([disabled])');
     let isValid = true;
     
     inputs.forEach(input => {
-        // OAT Validering
         if (input.id === 'oatNumber') {
             const group = input.closest('.input-prefix-group');
             if (!input.value.trim()) {
@@ -350,7 +386,6 @@ function validateAndAction(action) {
                 input.classList.remove('error');
             }
         } 
-        // Endurance Validering (hh:mm)
         else if (input.id === 'endurance') {
             const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
             if(!timeRegex.test(input.value)) {
@@ -361,7 +396,6 @@ function validateAndAction(action) {
                 input.classList.remove('error');
             }
         }
-        // Operatørnummer Validering (16 chars)
         else if (input.id === 'ridOpNum') {
             const ridRegex = /^[a-zA-Z0-9]{16}$/;
             if(!ridRegex.test(input.value)) {
@@ -393,10 +427,7 @@ function validateAndAction(action) {
         isValid = false;
     }
 
-    if (!isValid) {
-        // Alert vises også spesifikt for feltene over
-        return;
-    }
+    if (!isValid) return;
 
     if (action === 'json') exportJSON();
     else if (action === 'print') window.print();
@@ -466,22 +497,27 @@ function exportJSON() {
 
 function toggleLanguage() {
     currentLang = currentLang === 'no' ? 'en' : 'no';
+    applyTranslations(currentLang);
+}
+
+function applyTranslations(lang) {
     const btn = document.getElementById('langToggle');
-    btn.textContent = currentLang === 'no' ? 'Switch to English' : 'Bytt til Norsk';
+    btn.textContent = lang === 'no' ? 'Switch to English' : 'Bytt til Norsk';
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[currentLang][key]) {
-            el.innerHTML = translations[currentLang][key];
+        if (translations[lang][key]) {
+            el.innerHTML = translations[lang][key];
         }
     });
 
-    const p = placeholders[currentLang];
+    const p = placeholders[lang];
     if(p) {
         for(const [id, val] of Object.entries(p)) {
             const el = document.getElementById(id);
             if(el) el.placeholder = val;
         }
     }
+    
     updateAuthUI(); 
 }
