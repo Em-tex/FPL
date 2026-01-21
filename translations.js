@@ -95,9 +95,9 @@ const translations = {
         infoSendTo: "Sendes til:",
         emailCaa: "<strong>Luftfartstilsynet:</strong> postmottak@caa.no",
         
-        emailToll: "<strong>Toll:</strong> [E-postadresse]",
+        emailToll: "<strong>Tolletaten:</strong> [E-postadresse]",
         emailForsvar: "<strong>Forsvaret (NAOC/NJHQ):</strong> [E-postadresse]",
-        emailAvinor: "<strong>Avinor (lokal TWR/ATCC):</strong> [E-postadresse]",
+        emailAvinor: "<strong>Avinor:</strong> [E-postadresse]",
         
         lblCopyEmails: "Kopieringsvennlig linje:",
         disclaimerTitle: "Merk:",
