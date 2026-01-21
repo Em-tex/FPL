@@ -47,10 +47,10 @@ const translations = {
         optHybrid: "Hybrid (VTOL)",
         optOther: "Annet",
         
-        optElectric: "Elektrisk (Batteri)",
-        optPiston: "Stempelmotor / Hybrid",
+        optElectric: "Elektrisk",
+        optPiston: "Stempelmotor",
         optTurbine: "Turbin / Jet",
-        optNone: "Ingen (Glidefly/Ballong)",
+        optNone: "Ingen",
 
         lblColor: "Farge / Kjennetegn:",
         lblEc: "Elektronisk Synlighet:",
@@ -148,10 +148,10 @@ const translations = {
         optHybrid: "Hybrid (VTOL)",
         optOther: "Other",
 
-        optElectric: "Electric (Battery)",
+        optElectric: "Electric",
         optPiston: "Piston / Hybrid",
         optTurbine: "Turbine / Jet",
-        optNone: "None (Glider/Balloon)",
+        optNone: "None",
 
         lblColor: "Color / Markings:",
         lblEc: "Electronic Conspicuity:",
