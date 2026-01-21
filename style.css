@@ -54,6 +54,9 @@ header {
 .logo { height: 40px; width: auto; }
 h1 { margin: 0; font-size: 1.3rem; color: var(--primary-color); }
 
+/* Justering av flagg i knapp */
+.fi { margin-right: 8px; font-size: 1.1em; vertical-align: middle; }
+
 /* --- INTRO & CARDS --- */
 .intro-block {
     background-color: #e8f0fe;

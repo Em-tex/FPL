@@ -216,11 +216,11 @@ function updateAuthUI() {
         stateNatOtherInput.required = false;
 
         if (permitType === 'nor_oat') {
-            oatPrefix.textContent = "";
+            oatPrefix.textContent = "NOR-OAT-";
             oatPrefix.style.display = "flex";
         } else {
             oatPrefix.style.display = "none";
-            oatInput.placeholder = "NNN-OAT-...";
+            oatInput.placeholder = "XXX-OAT-YYY";
         }
 
         if (permitType === 'nor_oat' && isIntWaters) {
@@ -524,8 +524,12 @@ function toggleLanguage() {
 
 function applyTranslations(lang) {
     const btn = document.getElementById('langToggle');
-    // Vis flagget for språket man bytter TIL
-    btn.textContent = lang === 'no' ? '🇬🇧 Switch to English' : '🇳🇴 Bytt til Norsk';
+    // Vis flagget for språket man bytter TIL. Bruker flag-icons.
+    if (lang === 'no') {
+        btn.innerHTML = '<span class="fi fi-gb"></span> Switch to English';
+    } else {
+        btn.innerHTML = '<span class="fi fi-no"></span> Bytt til Norsk';
+    }
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
