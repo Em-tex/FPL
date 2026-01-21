@@ -9,8 +9,9 @@ const translations = {
         lblOperatorName: "Operatørnavn:",
         lblOperatorEmail: "Operatør E-post:",
         lblOperatorPhone: "Operatør Telefon:",
-        lblPilotName: "Navn på Pilot:",
-        lblPilotPhone: "Pilot Telefon (tilgjengelig under flyging):",
+        
+        lblPilotName: "Fartøysjef (Pilot in Command):",
+        lblPilotPhone: "Fartøysjefens telefon:",
         
         subHeaderAuth: "Kategori og Autorisasjoner",
         lblFlightCategory: "Luftfartskategori:",
@@ -86,26 +87,33 @@ const translations = {
         btnPdf: "Last ned / Skriv ut (PDF)",
         btnReset: "Tøm skjema",
         
+        // Footer & Innsending
         infoBoxHeader: "Innsending",
         infoSendTo: "Sendes til:",
         emailCaa: "<strong>Luftfartstilsynet:</strong> postmottak@caa.no",
-        emailTollTitle: "Toll / Forsvaret:",
-        emailTollDesc: "Se veileder.",
+        
+        // Oppdaterte e-post linjer
+        emailToll: "<strong>Toll:</strong> [E-postadresse]",
+        emailForsvar: "<strong>Forsvaret (NAOC/NJHQ):</strong> [E-postadresse]",
+        emailAvinor: "<strong>Avinor (lokal TWR/ATCC):</strong> [E-postadresse]",
+        
         lblCopyEmails: "Kopieringsvennlig linje:",
         disclaimerTitle: "Merk:",
-        footerBaseText: "Operatøren er ansvarlig for alle tillatelser."
+        // Oppdatert footer med NSM link
+        footerBaseText: "Operatøren er ansvarlig for alle tillatelser. Utenlandske UAS-operatører må melde fra til NSM om all sensorbruk. Se <a href='https://nsm.no/fysisk/luftbarne-sensorsystemer/' target='_blank'>NSM</a>."
     },
     en: {
-        pageTitle: "Notification of Border-Crossing Drone Operation",
-        mainHeader: "Notification of Border-Crossing Drone Operation",
+        pageTitle: "Notification of Border-Crossing Drone Operation to Norway",
+        mainHeader: "Notification of Border-Crossing Drone Operation to Norway",
         txtOpenCatNote: "<strong>Note:</strong> Flights in the <em>Open Category</em> do not require submission of this form.",
         
         sect1Header: "1. Operator and Permissions",
         lblOperatorName: "Operator Name:",
         lblOperatorEmail: "Operator Email:",
         lblOperatorPhone: "Operator Phone:",
-        lblPilotName: "Pilot Name:",
-        lblPilotPhone: "Pilot Phone (available during flight):",
+        
+        lblPilotName: "Pilot in Command Name:",
+        lblPilotPhone: "Pilot in Command Phone:",
         
         subHeaderAuth: "Category and Authorisations",
         lblFlightCategory: "Flight Category:",
@@ -182,11 +190,16 @@ const translations = {
         infoBoxHeader: "Submission",
         infoSendTo: "Send to:",
         emailCaa: "<strong>CAA Norway:</strong> postmottak@caa.no",
-        emailTollTitle: "Customs / Defence:",
-        emailTollDesc: "See guide.",
+        
+        // Updated email lines
+        emailToll: "<strong>Customs:</strong> [Email Address]",
+        emailForsvar: "<strong>Armed Forces (NAOC/NJHQ):</strong> [Email Address]",
+        emailAvinor: "<strong>Avinor (local TWR/ATCC):</strong> [Email Address]",
+        
         lblCopyEmails: "Copy-paste string:",
         disclaimerTitle: "Note:",
-        footerBaseText: "The operator is responsible for permissions."
+        // Updated footer with NSM link
+        footerBaseText: "The operator is responsible for permissions. Foreign UAS operators must report all sensor usage to NSM. See <a href='https://nsm.no/areas-of-expertise/physical-security/airborne-sensor-systems/' target='_blank'>NSM</a>."
     }
 };
 

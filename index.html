@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="pageTitle">Melding om grensekryssende droneflyging</title>
+    <title data-i18n="pageTitle">Melding om grensekryssende droneflyging til Norge</title>
     <link rel="icon" type="image/png" href="favicon.png">
     
     <link rel="stylesheet" href="style.css">
@@ -20,7 +20,7 @@
                     <a href="https://www.luftfartstilsynet.no/droner/" id="logoLink" target="_blank" class="logo-link">
                         <img src="logo.png" alt="Luftfartstilsynet Logo" class="logo">
                     </a>
-                    <h1 data-i18n="mainHeader">Melding om grensekryssende droneflyging</h1>
+                    <h1 data-i18n="mainHeader">Melding om grensekryssende droneflyging til Norge</h1>
                 </div>
                 <button id="langToggle" class="btn-lang no-print" onclick="toggleLanguage()">Switch to English</button>
             </div>
@@ -54,11 +54,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pilotName" class="required" data-i18n="lblPilotName">Navn på Pilot:</label>
+                        <label for="pilotName" class="required" data-i18n="lblPilotName">Fartøysjef (Pilot in Command):</label>
                         <input type="text" id="pilotName" name="pilotName" required>
                     </div>
                     <div class="form-group">
-                        <label for="pilotPhone" class="required" data-i18n="lblPilotPhone">Pilot Telefon (tilgjengelig under flyging):</label>
+                        <label for="pilotPhone" class="required" data-i18n="lblPilotPhone">Fartøysjefens telefon:</label>
                         <input type="tel" id="pilotPhone" name="pilotPhone" required>
                     </div>
                 </div>
@@ -321,7 +321,9 @@
                 <p data-i18n="infoSendTo">Sendes til:</p>
                 <ul class="email-list">
                     <li data-i18n="emailCaa"><strong>Luftfartstilsynet:</strong> postmottak@caa.no</li>
-                    <li><strong data-i18n="emailTollTitle">Toll / Forsvaret:</strong> <span data-i18n="emailTollDesc">Se veileder.</span></li>
+                    <li data-i18n="emailToll"><strong>Toll:</strong> [E-postadresse]</li>
+                    <li data-i18n="emailForsvar"><strong>Forsvaret (NAOC/NJHQ):</strong> [E-postadresse]</li>
+                    <li data-i18n="emailAvinor"><strong>Avinor (lokal TWR/ATCC):</strong> [E-postadresse]</li>
                 </ul>
 
                 <div class="email-copy-container no-print">
@@ -332,9 +334,7 @@
                 <div class="disclaimer">
                     <strong data-i18n="disclaimerTitle">Merk:</strong>
                     <p id="footerDisclaimerText" style="margin-top: 2px;">
-                        Operatøren er ansvarlig for alle tillatelser.
-                        <a href="https://registrering.sensor.nsm.cloudgis.no/?initialLang=en" target="_blank">NSM Sensorregistrering</a>.
-                    </p>
+                        </p>
                 </div>
             </div>
 
