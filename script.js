@@ -4,12 +4,17 @@ let currentLang = 'no';
 const STORAGE_KEY = 'drone_flight_form_data';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Sjekk URL for språkvalg
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('lang') === 'en') {
+        currentLang = 'en';
+    }
+
     initMap();
     setupEventListeners();
     applyTranslations(currentLang);
     updateAuthUI();
     
-    // Prøv å laste fra localstorage ved start
     const savedJson = localStorage.getItem(STORAGE_KEY);
     if(savedJson) {
         try {
@@ -148,20 +153,25 @@ function setupEventListeners() {
         else cont.classList.add('hidden');
     });
 
-    const enduranceInput = document.getElementById('endurance');
+    const enduranceHours = document.getElementById('enduranceHours');
+    const enduranceMinutes = document.getElementById('enduranceMinutes');
     const enduranceNA = document.getElementById('enduranceNA');
     
     enduranceNA.addEventListener('change', function() {
         if(this.checked) {
-            enduranceInput.disabled = true;
-            enduranceInput.required = false;
-            enduranceInput.value = "";
-            enduranceInput.placeholder = "N/A";
-            enduranceInput.classList.remove('error');
+            enduranceHours.disabled = true;
+            enduranceMinutes.disabled = true;
+            enduranceHours.required = false;
+            enduranceMinutes.required = false;
+            enduranceHours.value = "";
+            enduranceMinutes.value = "";
+            enduranceHours.classList.remove('error');
+            enduranceMinutes.classList.remove('error');
         } else {
-            enduranceInput.disabled = false;
-            enduranceInput.required = true;
-            enduranceInput.placeholder = "hh:mm";
+            enduranceHours.disabled = false;
+            enduranceMinutes.disabled = false;
+            enduranceHours.required = true;
+            enduranceMinutes.required = true;
         }
     });
 
@@ -206,11 +216,11 @@ function updateAuthUI() {
         stateNatOtherInput.required = false;
 
         if (permitType === 'nor_oat') {
-            oatPrefix.textContent = "NOR-OAT-";
+            oatPrefix.textContent = "";
             oatPrefix.style.display = "flex";
         } else {
             oatPrefix.style.display = "none";
-            oatInput.placeholder = "XXX-OAT-YYY";
+            oatInput.placeholder = "NNN-OAT-...";
         }
 
         if (permitType === 'nor_oat' && isIntWaters) {
@@ -234,18 +244,16 @@ function updateAuthUI() {
         oatInput.required = false;
         cboInput.required = false;
 
-        // Nasjonalitet logikk
         if (stateNat === 'Other') {
             stateNatOtherCont.classList.remove('hidden');
             stateNatOtherInput.required = true;
             diploContainer.classList.remove('hidden');
             diploInput.required = true;
-        } else if (stateNat === 'Foreign') { // Bakoverkompatibilitet
+        } else if (stateNat === 'Foreign') {
             stateNatOtherCont.classList.remove('hidden'); 
             diploContainer.classList.remove('hidden');
             diploInput.required = true;
         } else {
-            // Norge
             stateNatOtherCont.classList.add('hidden');
             stateNatOtherInput.required = false;
             diploContainer.classList.add('hidden');
@@ -265,6 +273,10 @@ function saveFormData() {
     data.comCheck = document.getElementById('comCheck').checked;
     data.enduranceNA = document.getElementById('enduranceNA').checked;
     
+    // Lagre endurance feltene manuelt hvis de ikke fanges opp av form (de bør fanges opp av FormData, men for sikkerhets skyld)
+    data.enduranceHours = document.getElementById('enduranceHours').value;
+    data.enduranceMinutes = document.getElementById('enduranceMinutes').value;
+
     if (drawnItems && drawnItems.getLayers().length > 0) {
         data.mapGeoJSON = drawnItems.toGeoJSON();
     }
@@ -272,7 +284,6 @@ function saveFormData() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-// Funksjon for å laste inn JSON fil
 function handleJsonUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -289,13 +300,10 @@ function handleJsonUpload(event) {
         }
     };
     reader.readAsText(file);
-    // Reset input slik at man kan laste samme fil igjen
     event.target.value = '';
 }
 
-// Felles funksjon for å fylle skjemaet (fra LocalStorage eller Fil)
 function populateForm(data) {
-    // 1. Fyll standard input felt
     for (const [key, value] of Object.entries(data)) {
         const el = document.getElementById(key);
         if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA')) {
@@ -303,7 +311,6 @@ function populateForm(data) {
         }
     }
     
-    // 2. Nullstill og sett checkboxes
     document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
     
     if (data.ec) data.ec.forEach(val => {
@@ -319,10 +326,13 @@ function populateForm(data) {
     if(data.comCheck) document.getElementById('comCheck').checked = true;
     if(data.enduranceNA) document.getElementById('enduranceNA').checked = true;
 
-    // 3. Trigger events for å oppdatere UI (vis/skjul felt)
     updateAuthUI();
     document.getElementById('comCheck').dispatchEvent(new Event('change'));
+    // Trigger update for N/A checkbox før vi setter verdier
     document.getElementById('enduranceNA').dispatchEvent(new Event('change'));
+
+    if (data.enduranceHours) document.getElementById('enduranceHours').value = data.enduranceHours;
+    if (data.enduranceMinutes) document.getElementById('enduranceMinutes').value = data.enduranceMinutes;
     
     if(data.ec && data.ec.includes('None')) document.getElementById('ecNone').dispatchEvent(new Event('change'));
     if(data.ec && data.ec.includes('Annet')) document.getElementById('ecOtherCheck').dispatchEvent(new Event('change'));
@@ -337,19 +347,11 @@ function populateForm(data) {
 
     document.getElementById('droneType').dispatchEvent(new Event('change'));
 
-    // 4. Tegn kartet
     drawnItems.clearLayers();
     if (data.mapGeoJSON) {
         const layer = L.geoJSON(data.mapGeoJSON);
         layer.eachLayer(l => {
             drawnItems.addLayer(l);
-            // Legg til markører på nytt ved å simulere event eller kalle logikk?
-            // Enklest her er å stole på initMap's draw:created, men siden vi laster programmatisk
-            // må vi kalle hjelpefunksjonen vår hvis vi vil ha ikonene:
-            // (Du må ha tilgang til ikonene eller opprette dem på nytt her. 
-            // For enkelhets skyld i denne versjonen dropper vi ikon-gjenskaping ved import 
-            // med mindre vi flytter ikon-definisjonene ut av initMap. 
-            // Men ruten vises!)
         });
         if(layer.getLayers().length > 0 && layer.getBounds().isValid()) {
             map.fitBounds(layer.getBounds());
@@ -357,7 +359,6 @@ function populateForm(data) {
         document.getElementById('mapError').classList.add('hidden');
     }
     
-    // Lagre til localstorage slik at det huskes ved refresh
     saveFormData();
 }
 
@@ -386,12 +387,15 @@ function validateAndAction(action) {
                 input.classList.remove('error');
             }
         } 
-        else if (input.id === 'endurance') {
-            const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-            if(!timeRegex.test(input.value)) {
+        else if (input.id === 'enduranceHours' || input.id === 'enduranceMinutes') {
+            // Sjekkes bare hvis de er required (dvs ikke N/A)
+            if (input.required && input.value === '') {
                 input.classList.add('error');
                 isValid = false;
-                alert("Endurance må være på formatet hh:mm (f.eks. 01:30) eller sjekk N/A.");
+            } else if (input.id === 'enduranceMinutes' && (parseInt(input.value) < 0 || parseInt(input.value) > 59)) {
+                input.classList.add('error');
+                isValid = false;
+                alert("Minutter må være mellom 0 og 59.");
             } else {
                 input.classList.remove('error');
             }
@@ -474,6 +478,18 @@ function exportJSON() {
         data.oatNumberFull = data.oatNumber;
     }
 
+    // Endurance logic: Kombiner til streng hvis ikke N/A
+    if (!document.getElementById('enduranceNA').checked) {
+        const hh = document.getElementById('enduranceHours').value.padStart(2, '0');
+        const mm = document.getElementById('enduranceMinutes').value.padStart(2, '0');
+        data.endurance = `${hh}:${mm}`;
+    } else {
+        data.endurance = "N/A";
+    }
+    // Fjern rådata feltene fra JSON output hvis du vil ha det rent
+    delete data.enduranceHours;
+    delete data.enduranceMinutes;
+
     data.electronicConspicuity = Array.from(document.querySelectorAll('input[name="ec"]:checked')).map(cb => cb.value);
     data.comMethods = Array.from(document.querySelectorAll('input[name="comMethods"]:checked')).map(cb => cb.value);
     data.enduranceNA = document.getElementById('enduranceNA').checked;
@@ -497,12 +513,19 @@ function exportJSON() {
 
 function toggleLanguage() {
     currentLang = currentLang === 'no' ? 'en' : 'no';
+    
+    // Oppdater URL med nytt språkvalg
+    const newUrl = new URL(window.location);
+    newUrl.searchParams.set('lang', currentLang);
+    window.history.pushState({}, '', newUrl);
+
     applyTranslations(currentLang);
 }
 
 function applyTranslations(lang) {
     const btn = document.getElementById('langToggle');
-    btn.textContent = lang === 'no' ? 'Switch to English' : 'Bytt til Norsk';
+    // Vis flagget for språket man bytter TIL
+    btn.textContent = lang === 'no' ? '🇬🇧 Switch to English' : '🇳🇴 Bytt til Norsk';
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');

@@ -1,7 +1,7 @@
 const translations = {
     no: {
         pageTitle: "Melding om grensekryssende droneflyging",
-        mainHeader: "Melding om grensekryssende droneflyging",
+        mainHeader: "Melding om grensekryssende droneflyging til Norge",
         txtOpenCatNote: "<strong>Merk:</strong> Flyging i <em>åpen kategori</em> krever ikke innsending av dette skjemaet.",
         
         // Seksjon 1
@@ -80,7 +80,8 @@ const translations = {
         lblComRadio: "Radio (VHF)",
         
         lblRouteMap: "<i class='fa-solid fa-map'></i> Ruteoversikt",
-        txtMapHelp: "Tegn rute. Grønn markør = Start, Rød markør = Slutt.",
+        txtMapInstruction: "Tegn rute eller last opp fil", // NY
+        lblMapLegend: "Grønn markør = Avgang, Rød markør = Landing.", // NY
         tooltipMap: "Støtter: KML, GPX, GeoJSON.<br>Verktøy: Google Earth, geojson.io.",
         btnMapClear: "Slett kartdata",
         msgMapError: "Kartdata mangler! Vennligst tegn en rute.",
@@ -180,7 +181,8 @@ const translations = {
         lblComRadio: "Radio (VHF)",
 
         lblRouteMap: "<i class='fa-solid fa-map'></i> Route Overview",
-        txtMapHelp: "Draw route. Green marker = Start, Red marker = End.",
+        txtMapInstruction: "Draw route or upload file", // NY
+        lblMapLegend: "Green marker = Departure, Red marker = Landing.", // NY
         tooltipMap: "Supports: KML, GPX, GeoJSON.<br>Tools: Google Earth, geojson.io.",
         btnMapClear: "Clear Map Data",
         msgMapError: "Map data missing! Please draw a route.",
@@ -209,10 +211,10 @@ const placeholders = {
         manufacturer: "F.eks. DJI",
         model: "F.eks. Matrice 300",
         color: "F.eks. Oransje",
-        oatNumber: "F.eks. UAS-NO-...",
+        oatNumber: "",
         cboNumber: "F.eks. SWE-CBO-123...",
         cboNotReq: "Ikke påkrevd",
-        diploRef: "", // Fjernet Ref.nr
+        diploRef: "", 
         typeOtherText: "Beskriv...",
         ecOtherText: "Beskriv utstyr..."
     },
@@ -220,10 +222,10 @@ const placeholders = {
         manufacturer: "E.g. DJI",
         model: "E.g. Matrice 300",
         color: "E.g. Orange",
-        oatNumber: "E.g. UAS-NO-...",
+        oatNumber: "",
         cboNumber: "E.g. SWE-CBO-123...",
         cboNotReq: "Not required",
-        diploRef: "", // Removed Ref.no
+        diploRef: "", 
         typeOtherText: "Describe...",
         ecOtherText: "Describe equipment..."
     }

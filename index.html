@@ -24,7 +24,7 @@
                     </a>
                     <h1 data-i18n="mainHeader">Melding om grensekryssende droneflyging til Norge</h1>
                 </div>
-                <button id="langToggle" class="btn-lang no-print" onclick="toggleLanguage()">Switch to English</button>
+                <button id="langToggle" class="btn-lang no-print" onclick="toggleLanguage()">🇬🇧 Switch to English</button>
             </div>
         </div>
     </header>
@@ -262,7 +262,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="endurance" class="required">
+                        <label class="required">
                             <span data-i18n="lblEndurance">Endurance (hh:mm):</span>
                             <div class="tooltip-container">
                                 <span class="info-icon">i</span>
@@ -271,7 +271,12 @@
                         </label>
                         
                         <div style="display: flex; gap: 10px; align-items: center;">
-                            <input type="text" id="endurance" name="endurance" placeholder="hh:mm" required style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <input type="number" id="enduranceHours" name="enduranceHours" placeholder="tt" min="0" class="input-short" required style="width: 70px; text-align: center;">
+                                <span style="font-weight: bold;">:</span>
+                                <input type="number" id="enduranceMinutes" name="enduranceMinutes" placeholder="mm" min="0" max="59" class="input-short" required style="width: 70px; text-align: center;">
+                            </div>
+
                             <label class="checkbox-group" style="margin: 0; white-space: nowrap;">
                                 <input type="checkbox" id="enduranceNA" name="enduranceNA">
                                 <span data-i18n="lblNA">N/A</span>
@@ -295,15 +300,15 @@
                 </div>
 
                 <div class="map-section">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span class="label-heading" data-i18n="lblRouteMap">Ruteoversikt</span>
-                        <div class="tooltip-container">
+                    <h3 data-i18n="lblRouteMap"><i class="fa-solid fa-map"></i> Ruteoversikt</h3>
+                    
+                    <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                         <span data-i18n="txtMapInstruction">Tegn rute eller last opp fil</span>
+                         <div class="tooltip-container">
                             <span class="info-icon">i</span>
                             <span class="tooltip-text" data-i18n="tooltipMap">Støtter: KML, GPX, GeoJSON.<br>Verktøy: Google Earth, geojson.io.</span>
                         </div>
                     </div>
-                    
-                    <p class="help-text" data-i18n="txtMapHelp">Tegn rute. Grønn markør = Start, Rød markør = Slutt.</p>
                     
                     <div class="map-controls no-print">
                         <input type="file" id="fileUpload" accept=".kml,.gpx,.json,.geojson" class="file-input">
@@ -311,6 +316,11 @@
                     </div>
 
                     <div id="map"></div>
+                    
+                    <div class="map-legend" style="margin-top: 5px; font-size: 0.85rem; color: #666;">
+                        <span data-i18n="lblMapLegend">Grønn markør = Avgang, Rød markør = Landing.</span>
+                    </div>
+
                     <div id="mapError" class="error-msg hidden" data-i18n="msgMapError">Kartdata mangler! Vennligst tegn en rute.</div>
                 </div>
             </section>
@@ -345,8 +355,8 @@
 
                 <div class="disclaimer">
                     <strong data-i18n="disclaimerTitle">Merk:</strong>
-                    <p id="footerDisclaimerText" style="margin-top: 2px;">
-                        </p>
+                    <p id="footerDisclaimerText" data-i18n="footerBaseText" style="margin-top: 2px;">
+                    </p>
                 </div>
             </div>
 
