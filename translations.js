@@ -44,7 +44,7 @@ const translations = {
         lblDroneType: "<i class='fa-solid fa-dragon'></i> Fartøytype:",
         
         optFixedWing: "Fixed Wing (Fly)",
-        optHelicopter: "Helikopter",
+        optHelicopter: "Helicopter",
         optMultirotor: "Multirotor",
         optHybrid: "Hybrid (VTOL)",
         optOther: "Annet",
@@ -81,7 +81,7 @@ const translations = {
         
         lblRouteMap: "<i class='fa-solid fa-map'></i> Ruteoversikt",
         txtMapInstruction: "Tegn rute eller last opp fil",
-        lblMapLegend: "Grønn markør = Avgang, Rød markør = Landing.", 
+        lblMapLegend: "Grønn markør = Avgang, Rød markør = Landing.",
         tooltipMap: "Støtter: KML, GPX, GeoJSON.<br>Verktøy: Google Earth, geojson.io.",
         btnMapClear: "Slett kartdata",
         msgMapError: "Kartdata mangler! Vennligst tegn en rute.",
@@ -95,9 +95,9 @@ const translations = {
         infoSendTo: "Sendes til:",
         emailCaa: "<strong>Luftfartstilsynet:</strong> postmottak@caa.no",
         
-        emailToll: "<strong>Tolletaten:</strong> [E-postadresse]",
+        emailToll: "<strong>Toll:</strong> [E-postadresse]",
         emailForsvar: "<strong>Forsvaret (NAOC/NJHQ):</strong> [E-postadresse]",
-        emailAvinor: "<strong>Avinor:</strong> [E-postadresse]",
+        emailAvinor: "<strong>Avinor (lokal TWR/ATCC):</strong> [E-postadresse]",
         
         lblCopyEmails: "Kopieringsvennlig linje:",
         disclaimerTitle: "Merk:",

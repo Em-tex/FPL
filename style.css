@@ -19,77 +19,91 @@ body {
     font-size: 14px;
 }
 
+/* --- MAIN CONTAINER (WIDER) --- */
 .container {
-    max-width: 900px;
+    max-width: 1100px; /* Økt fra 900px for å gi mer plass */
     margin: 0 auto;
     padding: 20px;
 }
 
-/* --- HEADER --- */
+/* --- HEADER (GRID LAYOUT) --- */
 header {
     background-color: #fff;
     border-bottom: 3px solid var(--primary-color);
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     padding: 15px 0;
 }
 
 .header-wrapper {
-    /* Full bredde for å gi plass til alt på en linje */
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 30px; /* Litt mer luft på sidene */
     box-sizing: border-box; 
 }
 
 .header-container {
-    display: flex;
+    display: grid;
+    /* Desktop: 3 kolonner. Auto bredde på sider, 1fr (resten) i midten */
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "logo title button";
     align-items: center;
-    justify-content: space-between;
     gap: 20px;
-    flex-wrap: nowrap; /* Hindrer at det hopper til neste linje */
 }
 
-.logo-link {
-    flex-shrink: 0; 
+.logo-link { 
+    grid-area: logo; 
+    display: flex; /* For å fjerne ekstra whitespace under img */
 }
 
-.logo { height: 40px; width: auto; }
+.logo { height: 45px; width: auto; } /* Litt større logo */
 
 h1 { 
+    grid-area: title;
     margin: 0; 
-    font-size: 1.3rem; 
+    font-size: 1.4rem; 
     color: var(--primary-color);
-    flex-grow: 1; /* Tar all tilgjengelig plass i midten */
-    text-align: center; /* Sentrerer teksten */
+    text-align: center; 
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 0 10px;
 }
 
 .btn-lang {
-    flex-shrink: 0;
+    grid-area: button;
     white-space: nowrap;
 }
 
-/* Responsiv header for små skjermer (mobil) */
+/* --- RESPONSIV HEADER (MOBIL) --- */
 @media (max-width: 768px) {
     .header-container {
-        flex-wrap: wrap; /* Tillat wrapping på mobil for leselighet */
-        justify-content: center;
+        /* Mobil: 2 kolonner. Logo og knapp øverst, tittel under */
+        grid-template-columns: 1fr auto;
+        grid-template-areas: 
+            "logo button"
+            "title title";
+        gap: 15px;
     }
+    
     h1 {
-        white-space: normal; 
-        order: 2;
-        width: 100%;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        white-space: normal; /* Tillat linjebryting på mobil */
+        font-size: 1.2rem;
+        margin-top: 5px;
+        line-height: 1.3;
     }
-    .logo-link { order: 1; margin-right: auto; }
-    .btn-lang { order: 3; margin-left: auto; }
+    
+    .logo { height: 35px; } /* Litt mindre logo på mobil */
+    
+    /* Juster knappstørrelse på mobil */
+    .btn-lang {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
 }
 
-/* Flagg i knapp */
-.fi { margin-right: 8px; font-size: 1.1em; vertical-align: middle; }
+/* Flagg ikon */
+.fi { margin-right: 8px; font-size: 1.2em; vertical-align: middle; position: relative; top: -1px;}
+
 
 /* --- INTRO & CARDS --- */
 .intro-block {
@@ -105,7 +119,7 @@ h1 {
 .card {
     background: #fff;
     border-radius: var(--border-radius);
-    padding: 25px; 
+    padding: 30px; /* Litt mer padding inni kortene */
     margin-bottom: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border: 1px solid #eef0f2;
@@ -114,22 +128,22 @@ h1 {
 h2 {
     color: var(--primary-color);
     border-bottom: 1px solid #eee;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
     margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 1.1rem;
+    margin-bottom: 25px;
+    font-size: 1.15rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-h2 i { margin-right: 8px; }
+h2 i { margin-right: 10px; }
 
 .sub-section {
-    margin-top: 25px;
-    padding-top: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
     border-top: 1px dashed #ddd;
 }
 .sub-section h3 {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--secondary-color);
     margin-bottom: 15px;
     margin-top: 0;
@@ -140,10 +154,18 @@ h2 i { margin-right: 8px; }
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px 25px; 
+    gap: 20px 40px; /* Mer luft horisontalt mellom feltene */
 }
 
-.full-width { grid-column: span 2; }
+/* På mobil blir grid-2 til én kolonne */
+@media (max-width: 650px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+.full-width { grid-column: 1 / -1; }
 .mt-small { margin-top: 15px; }
 
 .form-group { margin-bottom: 0; }
@@ -151,7 +173,7 @@ h2 i { margin-right: 8px; }
 label {
     display: block;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
     font-size: 0.85rem;
     color: #444;
 }
@@ -159,7 +181,7 @@ label {
 label i {
     color: var(--primary-color);
     margin-right: 5px;
-    width: 16px;
+    width: 18px;
     text-align: center;
 }
 
@@ -180,6 +202,13 @@ select, textarea {
     font-size: 0.95rem;
     box-sizing: border-box;
     background-color: #fff;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 48, 87, 0.1);
 }
 
 input.error, select.error, .input-prefix-group.error {
@@ -208,7 +237,7 @@ input.error, select.error, .input-prefix-group.error {
 .input-prefix-group .prefix {
     background: #eef4fa;
     color: #333;
-    padding: 0 10px;
+    padding: 0 12px;
     display: flex;
     align-items: center;
     font-size: 0.9rem;
@@ -226,11 +255,11 @@ input.error, select.error, .input-prefix-group.error {
 }
 .input-prefix-group:focus-within {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 48, 87, 0.1);
+    box-shadow: 0 0 0 2px rgba(0, 48, 87, 0.1);
 }
 
-small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3px; }
-.info-notice { background: #e3f2fd; padding: 10px; border-radius: 4px; border: 1px solid #bbdefb; font-size: 0.85rem; }
+small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 4px; }
+.info-notice { background: #e3f2fd; padding: 12px; border-radius: 4px; border: 1px solid #bbdefb; font-size: 0.85rem; }
 
 /* --- TOOLTIPS --- */
 .tooltip-container {
@@ -243,12 +272,12 @@ small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background-color: #ccc;
     color: white;
     border-radius: 50%;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     cursor: help;
     font-family: sans-serif; 
@@ -256,23 +285,23 @@ small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3
 }
 .tooltip-text {
     visibility: hidden;
-    width: 200px;
+    width: 220px;
     background-color: #333;
     color: #fff;
     text-align: center;
     border-radius: 4px;
-    padding: 8px;
+    padding: 10px;
     position: absolute;
     z-index: 1000;
-    bottom: 125%;
+    bottom: 135%;
     left: 50%;
-    margin-left: -100px;
+    transform: translateX(-50%);
     opacity: 0;
-    transition: opacity 0.3s;
-    font-size: 0.75rem;
+    transition: opacity 0.2s;
+    font-size: 0.8rem;
     font-weight: normal;
-    line-height: 1.3;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    line-height: 1.4;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 .tooltip-text::after {
     content: "";
@@ -290,20 +319,21 @@ small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3
 }
 
 /* --- CHECKBOXES --- */
-.checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; }
 .checkbox-group.no-indent { margin-left: 0; } 
 
 .checkbox-group label {
     display: flex; align-items: center; cursor: pointer;
-    background: #fff; padding: 4px 10px; border: 1px solid #ccc;
+    background: #fff; padding: 6px 12px; border: 1px solid #ccc;
     border-radius: var(--border-radius); font-size: 0.85rem;
+    transition: background 0.1s;
 }
 .checkbox-group label:hover { background-color: #f4f6f8; }
-.checkbox-group input { margin-right: 8px; height: 14px; width: 14px; }
+.checkbox-group input { margin-right: 8px; height: 15px; width: 15px; }
 
 .checkbox-single {
     display: flex; align-items: center; background: #eef4fa;
-    border: 1px solid #d0e0f0; padding: 10px; border-radius: var(--border-radius);
+    border: 1px solid #d0e0f0; padding: 12px; border-radius: var(--border-radius);
     cursor: pointer;
 }
 .checkbox-single input { margin-right: 10px; transform: scale(1.1); }
@@ -312,41 +342,44 @@ small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3
 .hidden { display: none !important; }
 
 /* --- MAP --- */
-.map-section { margin-top: 20px; }
+.map-section { margin-top: 25px; }
 #map {
-    height: 350px;
+    height: 400px; /* Litt høyere kart */
     width: 100%; border: 1px solid #ccc;
     border-radius: var(--border-radius); margin-top: 10px;
 }
-.map-controls { margin-top: 10px; display: flex; justify-content: space-between; }
+.map-controls { margin-top: 12px; display: flex; justify-content: space-between; }
 
 /* --- BUTTONS & FOOTER --- */
-.actions { display: flex; margin-top: 20px; margin-bottom: 40px; }
+.actions { display: flex; margin-top: 30px; margin-bottom: 50px; }
 .btn {
-    padding: 0 20px; height: 40px; border: none; border-radius: var(--border-radius);
+    padding: 0 24px; height: 42px; border: none; border-radius: var(--border-radius);
     cursor: pointer; font-size: 0.95rem; font-weight: 600;
+    transition: background 0.2s;
 }
+.btn:hover { opacity: 0.9; }
 .btn-primary { background-color: var(--primary-color); color: white; }
 .btn-secondary { background-color: #e0e0e0; color: #333; }
 .btn-outline-danger { background: transparent; border: 1px solid #d32f2f; color: #d32f2f; }
 .btn-outline-danger:hover { background: #ffebee; }
-.btn-small, .btn-lang { padding: 4px 10px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+.btn-small, .btn-lang { padding: 6px 12px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+.btn-lang:hover { background-color: #f9f9f9; }
 
-.info-box { background-color: #f0f8ff; border: 1px solid #cfe2ff; padding: 15px; }
-.info-box h3 { font-size: 1rem; border-bottom: 1px solid #cfe2ff; padding-bottom: 5px; margin-top: 0; }
-.email-list { font-size: 0.85rem; margin: 10px 0; padding-left: 20px; }
-.email-copy-container { background: #fff; border: 1px solid #ccc; padding: 10px; margin-top: 15px; }
-.email-copy-field { background: #f9f9f9; padding: 5px; border: 1px solid #e0e0e0; font-family: monospace; font-size: 0.8rem; }
-.disclaimer { font-size: 0.75rem; margin-top: 15px; border-top: 1px solid #cfe2ff; padding-top: 10px; }
+.info-box { background-color: #f8fbff; border: 1px solid #cfe2ff; padding: 20px; border-radius: var(--border-radius); }
+.info-box h3 { font-size: 1.1rem; border-bottom: 1px solid #cfe2ff; padding-bottom: 8px; margin-top: 0; }
+.email-list { font-size: 0.9rem; margin: 15px 0; padding-left: 20px; line-height: 1.6; }
+.email-copy-container { background: #fff; border: 1px solid #ccc; padding: 12px; margin-top: 15px; border-radius: 4px; }
+.email-copy-field { background: #f4f4f4; padding: 8px; border: 1px solid #e0e0e0; font-family: monospace; font-size: 0.85rem; border-radius: 3px; }
+.disclaimer { font-size: 0.8rem; margin-top: 20px; border-top: 1px solid #cfe2ff; padding-top: 15px; color: #555; }
 .disclaimer a { color: var(--primary-color); text-decoration: underline; }
 
 @media print {
     body { background: #fff; font-size: 10pt; }
     .no-print, .actions { display: none !important; }
-    .container { padding: 0; max-width: 100%; }
-    .card, .info-box { border: 1px solid #999; box-shadow: none; break-inside: avoid; padding: 10px; margin-bottom: 10px; }
+    .container { padding: 0; max-width: 100%; margin: 0; }
+    .card, .info-box { border: 1px solid #999; box-shadow: none; break-inside: avoid; padding: 10px; margin-bottom: 15px; }
     input, select { border: none; background: transparent; padding: 0; height: auto; font-weight: bold; appearance: none; }
     .input-prefix-group { border: none; }
     .input-prefix-group .prefix { border: none; background: transparent; padding-left: 0; }
-    #map { height: 250px; border: 1px solid #000; }
+    #map { height: 300px; border: 1px solid #000; }
 }
