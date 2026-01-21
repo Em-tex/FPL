@@ -1,10 +1,12 @@
 :root {
-    --primary-color: #003057; /* Luftfartstilsynet blå */
+    --primary-color: #003057;
     --secondary-color: #666; 
     --text-color: #333;
     --bg-color: #f4f6f8;
     --border-radius: 4px;
-    --input-height: 42px; /* Fast høyde for perfekt alignment */
+    --input-height: 36px; /* Redusert høyde for mer kompakt design */
+    --error-color: #d32f2f;
+    --error-bg: #ffebee;
 }
 
 body {
@@ -13,428 +15,185 @@ body {
     color: var(--text-color);
     margin: 0;
     padding: 0;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    font-size: 14px; /* Litt mindre font for kompakt layout */
 }
 
 .container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 20px;
 }
 
 /* --- HEADER --- */
 header {
     background-color: #fff;
-    padding: 15px 30px;
+    padding: 10px 20px;
     border-bottom: 3px solid var(--primary-color);
-    margin-bottom: 30px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    margin-bottom: 20px;
 }
 
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 900px;
-    margin: 0 auto;
-    gap: 20px;
 }
 
 .logo-group {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
-.logo-link {
-    display: block;
-    flex-shrink: 0;
-}
+.logo { height: 35px; width: auto; }
+h1 { margin: 0; font-size: 1.2rem; color: var(--primary-color); }
 
-.logo {
-    max-height: 40px; 
-    width: auto;
-    display: block;
-}
-
-h1 {
-    margin: 0;
-    font-size: 1.25rem;
-    color: var(--primary-color);
-    font-weight: 600;
-    line-height: 1.3;
-}
-
-/* --- INTRO BLOCK --- */
+/* --- INTRO & CARDS --- */
 .intro-block {
     background-color: #fff;
     border-left: 4px solid #888;
-    padding: 20px;
-    margin-bottom: 30px;
+    padding: 15px;
+    margin-bottom: 20px;
     border-radius: var(--border-radius);
-    color: #444;
-    font-size: 0.95rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    font-size: 0.9rem;
 }
 
-/* --- FORM CARDS --- */
 .card {
     background: #fff;
     border-radius: var(--border-radius);
-    padding: 30px;
-    margin-bottom: 25px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    padding: 20px; /* Mindre padding */
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border: 1px solid #eef0f2;
 }
 
 h2 {
     color: var(--primary-color);
     border-bottom: 1px solid #eee;
-    padding-bottom: 12px;
+    padding-bottom: 8px;
     margin-top: 0;
-    margin-bottom: 25px;
-    font-size: 1.2rem;
-    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .sub-section {
-    margin-top: 30px;
-    padding-top: 20px;
+    margin-top: 25px;
+    padding-top: 15px;
     border-top: 1px dashed #ddd;
 }
 .sub-section h3 {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--secondary-color);
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 0;
 }
 
 /* --- GRID & INPUTS --- */
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 25px;
+    gap: 15px 20px; /* Mindre gap */
 }
 
-.full-width {
-    grid-column: span 2;
-}
+.full-width { grid-column: span 2; }
+.mt-small { margin-top: 15px; }
 
-.form-group {
-    margin-bottom: 5px;
-}
+.form-group { margin-bottom: 0; }
 
 label {
     display: block;
-    font-weight: 500;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
     color: #444;
 }
 
-/* Felles stil for alle input-typer */
-input[type="text"], 
-input[type="email"], 
-input[type="tel"],
-input[type="number"],
-input[type="datetime-local"],
-select,
-textarea {
+input[type="text"], input[type="email"], input[type="tel"],
+input[type="number"], input[type="datetime-local"],
+select, textarea {
     width: 100%;
     height: var(--input-height);
-    padding: 0 12px;
+    padding: 0 10px;
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
-    font-size: 1rem;
-    font-family: inherit;
-    color: #333;
+    font-size: 0.95rem;
     box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
     background-color: #fff;
 }
 
-textarea {
-    height: auto;
-    padding: 12px;
+/* Validation styles */
+input.error, select.error {
+    border-color: var(--error-color);
+    background-color: var(--error-bg);
 }
-
-input:focus, select:focus, textarea:focus {
-    border-color: var(--primary-color);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 48, 87, 0.1);
-}
-
-/* Spesialhåndtering for "Input Group" (Høyde + Enhet) */
-.input-group {
-    display: flex;
-    height: var(--input-height);
-}
-.input-group input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: 0;
-    flex: 2;
-}
-.input-group select {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    flex: 1;
-    background-color: #f9f9f9;
-}
-
-small.help-text {
-    display: block;
-    color: #666;
+.error-msg {
+    color: var(--error-color);
+    font-weight: bold;
     font-size: 0.85rem;
-    margin-top: 6px;
-    line-height: 1.4;
-}
-
-/* --- CHECKBOXES --- */
-.checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
     margin-top: 5px;
 }
 
+.input-group { display: flex; height: var(--input-height); }
+.input-group input { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; flex: 1; }
+.input-group select { border-top-left-radius: 0; border-bottom-left-radius: 0; background-color: #f9f9f9; flex: none; }
+
+small.help-text { display: block; color: #666; font-size: 0.75rem; margin-top: 3px; }
+.info-notice { background: #e3f2fd; padding: 10px; border-radius: 4px; border: 1px solid #bbdefb; font-size: 0.85rem; }
+
+/* --- CHECKBOXES --- */
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
 .checkbox-group label {
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    background: #fff;
-    padding: 8px 14px;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    font-size: 0.9rem;
-    transition: background 0.1s;
+    display: flex; align-items: center; cursor: pointer;
+    background: #fff; padding: 4px 10px; border: 1px solid #ccc;
+    border-radius: var(--border-radius); font-size: 0.85rem;
 }
-.checkbox-group label:hover {
-    background-color: #f4f6f8;
-    border-color: #bbb;
-}
-.checkbox-group input { 
-    margin-right: 10px; 
-    height: 16px; 
-    width: 16px; 
-    accent-color: var(--primary-color);
-}
+.checkbox-group label:hover { background-color: #f4f6f8; }
+.checkbox-group input { margin-right: 8px; height: 14px; width: 14px; }
 
-/* Single large checkbox (Radio / State Aircraft) */
 .checkbox-single {
-    display: flex;
-    align-items: center;
-    background: #eef4fa;
-    border: 1px solid #d0e0f0;
-    padding: 15px;
-    border-radius: var(--border-radius);
+    display: flex; align-items: center; background: #eef4fa;
+    border: 1px solid #d0e0f0; padding: 10px; border-radius: var(--border-radius);
     cursor: pointer;
 }
-.checkbox-single input { 
-    margin-right: 15px; 
-    transform: scale(1.1); 
-    accent-color: var(--primary-color);
-}
-.checkbox-single span {
-    font-weight: 500;
-    color: var(--primary-color);
-}
+.checkbox-single input { margin-right: 10px; transform: scale(1.1); }
+.checkbox-single span { font-weight: 600; color: var(--primary-color); font-size: 0.9rem; }
 
-.hidden { display: none; }
+.hidden { display: none !important; }
 
 /* --- MAP --- */
-.map-section { margin-top: 30px; }
-.label-heading {
-    font-weight: 600;
-    color: var(--primary-color);
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-    display: block;
-}
-
+.map-section { margin-top: 20px; }
 #map {
-    height: 350px;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    margin-top: 15px;
-    z-index: 1;
+    height: 300px; /* Litt lavere */
+    width: 100%; border: 1px solid #ccc;
+    border-radius: var(--border-radius); margin-top: 10px;
 }
+.map-controls { margin-top: 10px; display: flex; justify-content: space-between; }
 
-.map-controls {
-    margin-top: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* --- BUTTONS --- */
-.actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-top: 30px;
-    margin-bottom: 50px;
-}
-
+/* --- BUTTONS & FOOTER --- */
+.actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; margin-bottom: 40px; }
 .btn {
-    padding: 0 30px;
-    height: 48px;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
+    padding: 0 20px; height: 40px; border: none; border-radius: var(--border-radius);
+    cursor: pointer; font-size: 0.95rem; font-weight: 600;
 }
-
 .btn-primary { background-color: var(--primary-color); color: white; }
-.btn-primary:hover { background-color: #00427a; }
-
 .btn-secondary { background-color: #e0e0e0; color: #333; }
-.btn-secondary:hover { background-color: #d0d0d0; }
+.btn-small, .btn-lang { padding: 4px 10px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
 
-.btn-small {
-    padding: 6px 15px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-}
+.info-box { background-color: #f0f8ff; border: 1px solid #cfe2ff; padding: 15px; }
+.info-box h3 { font-size: 1rem; border-bottom: 1px solid #cfe2ff; padding-bottom: 5px; margin-top: 0; }
+.email-list { font-size: 0.85rem; margin: 10px 0; padding-left: 20px; }
+.email-copy-container { background: #fff; border: 1px solid #ccc; padding: 10px; margin-top: 15px; }
+.email-copy-field { background: #f9f9f9; padding: 5px; border: 1px solid #e0e0e0; font-family: monospace; font-size: 0.8rem; }
+.disclaimer { font-size: 0.75rem; margin-top: 15px; border-top: 1px solid #cfe2ff; padding-top: 10px; }
 
-.btn-lang {
-    background: transparent;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 6px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    transition: all 0.2s;
-}
-.btn-lang:hover { background: var(--primary-color); color: #fff; }
-
-/* --- INFO BOX & FOOTER --- */
-.info-box {
-    background-color: #f0f8ff; 
-    border: 1px solid #cfe2ff;
-    color: #333;
-    padding: 30px; 
-    border-radius: var(--border-radius);
-}
-
-.info-box h3 {
-    margin-top: 0;
-    color: var(--primary-color);
-    font-size: 1.1rem;
-    border-bottom: 2px solid #cfe2ff;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.email-list {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 20px;
-}
-.email-list li {
-    margin-bottom: 12px;
-    padding-left: 20px;
-    position: relative;
-    font-size: 0.95rem;
-}
-.email-list li::before {
-    content: "•";
-    color: var(--primary-color);
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-}
-.email-list strong {
-    font-weight: 600;
-    color: #000;
-}
-
-/* Kopierings-linje stil */
-.email-copy-container {
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: var(--border-radius);
-}
-.email-copy-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #666;
-    margin-bottom: 5px;
-    display: block;
-}
-.email-copy-field {
-    font-family: 'Consolas', 'Monaco', monospace;
-    background: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 3px;
-    font-size: 0.9rem;
-    color: #333;
-    word-break: break-all;
-    user-select: all;
-}
-
-.disclaimer {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #cfe2ff;
-    font-size: 0.85rem;
-    color: #555;
-    line-height: 1.5;
-}
-.disclaimer a { color: var(--primary-color); text-decoration: underline; }
-
-/* --- PRINT STYLES --- */
 @media print {
-    body { background-color: #fff; font-size: 11pt; }
-    .no-print, .actions, .map-controls, #langToggle { display: none !important; }
-    .container { width: 100%; max-width: 100%; padding: 0; margin: 0; }
-    
-    header { border-bottom: 2px solid #000; margin-bottom: 20px; padding: 0; box-shadow: none; }
-    .intro-block { border: 1px solid #ccc; box-shadow: none; }
-    
-    .card, .info-box { 
-        break-inside: avoid; 
-        page-break-inside: avoid; 
-        box-shadow: none; 
-        border: 1px solid #999;
-        margin-bottom: 15px;
-        padding: 15px;
-    }
-
-    input, select, textarea { 
-        border: 1px solid #ddd; 
-        background: transparent; 
-        box-shadow: none;
-    }
-    
-    .checkbox-single { background: #fff; border: 1px solid #999; }
-    
+    body { background: #fff; font-size: 10pt; }
+    .no-print, .actions { display: none !important; }
+    .container { padding: 0; max-width: 100%; }
+    .card, .info-box { border: 1px solid #999; box-shadow: none; break-inside: avoid; padding: 10px; margin-bottom: 10px; }
+    input, select { border: none; background: transparent; padding: 0; height: auto; font-weight: bold; appearance: none; }
+    .input-group select { display: inline-block; width: auto; }
     #map { height: 250px; border: 1px solid #000; }
-    a[href]:after { content: none !important; }
-}
-
-@media (max-width: 650px) {
-    .grid-2 { grid-template-columns: 1fr; gap: 15px; }
-    .full-width { grid-column: span 1; }
-    .header-container { flex-direction: column; align-items: flex-start; }
-    .input-group { flex-direction: column; height: auto; }
-    .input-group input, .input-group select { width: 100%; border-radius: var(--border-radius); border: 1px solid #ccc; margin-bottom: 5px; }
 }
