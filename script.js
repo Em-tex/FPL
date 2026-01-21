@@ -1,12 +1,13 @@
 let map;
 let drawnItems;
 let currentLang = 'no';
+const STORAGE_KEY = 'drone_flight_form_data';
 
 document.addEventListener('DOMContentLoaded', () => {
     initMap();
     setupEventListeners();
-    // Kjør UI oppdatering en gang ved start for å sette riktig state
     updateAuthUI();
+    loadFormData(); 
 });
 
 // --- KART OG MARKØRER ---
@@ -23,13 +24,12 @@ function initMap() {
         draw: {
             polygon: false, marker: false, circle: false, 
             circlemarker: false, rectangle: false, 
-            polyline: true // Vi tillater kun ruter (linjer)
+            polyline: true 
         },
         edit: { featureGroup: drawnItems }
     });
     map.addControl(drawControl);
 
-    // Definer fargede ikoner for start/slutt
     const greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -44,54 +44,70 @@ function initMap() {
     map.on(L.Draw.Event.CREATED, function (e) {
         const layer = e.layer;
         drawnItems.addLayer(layer);
-
-        // Hvis det er en linje, legg til start (grønn) og slutt (rød) markør
-        if (e.layerType === 'polyline') {
-            const latlngs = layer.getLatLngs();
-            if (latlngs.length > 0) {
-                // Start
-                L.marker(latlngs[0], {icon: greenIcon, interactive: false}).addTo(drawnItems);
-                // Slutt (siste punkt, håndterer også nested arrays hvis multi-segment)
-                const lastPoint = latlngs.flat(Infinity).slice(-1)[0]; 
-                L.marker(lastPoint, {icon: redIcon, interactive: false}).addTo(drawnItems);
-            }
-        }
-        // Fjern feilmelding hvis kartet får data
+        addStartEndMarkers(layer, greenIcon, redIcon);
         document.getElementById('mapError').classList.add('hidden');
+        saveFormData(); 
     });
-    
-    // Fjern feilmarkering ved sletting
-    map.on('draw:deleted', function () {
-         if (drawnItems.getLayers().length === 0) {
-             // Eventuell logikk hvis tomt
-         }
-    });
+
+    map.on('draw:deleted', saveFormData);
+    map.on('draw:edited', saveFormData);
 }
 
-function clearMap() { drawnItems.clearLayers(); }
+function addStartEndMarkers(layer, startIcon, endIcon) {
+    if (layer instanceof L.Polyline) {
+        const latlngs = layer.getLatLngs();
+        if (latlngs.length > 0) {
+            const flatPoints = latlngs.flat(Infinity);
+            if(flatPoints.length > 0) {
+                L.marker(flatPoints[0], {icon: startIcon, interactive: false}).addTo(drawnItems);
+                L.marker(flatPoints[flatPoints.length-1], {icon: endIcon, interactive: false}).addTo(drawnItems);
+            }
+        }
+    }
+}
+
+function clearMap() { 
+    drawnItems.clearLayers(); 
+    saveFormData();
+}
 
 
-// --- UI LOGIKK ---
+// --- UI LOGIKK & LAGRING ---
 function setupEventListeners() {
-    // Filopplasting
     document.getElementById('fileUpload').addEventListener('change', handleFileUpload);
     
-    // 1. EC "Ingen" og "Annet"
+    // Auto-save
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('change', saveFormData);
+        input.addEventListener('input', saveFormData);
+    });
+
+    // EC logikk
     const ecNone = document.getElementById('ecNone');
     const ecOtherCheck = document.getElementById('ecOtherCheck');
+    const ecRemoteId = document.getElementById('ecRemoteId');
     const ecCheckboxes = document.querySelectorAll('input[name="ec"]:not(#ecNone)');
     
     ecNone.addEventListener('change', function() {
         if(this.checked) {
-            // Hvis "Ingen" velges, fjern alle andre kryss
             ecCheckboxes.forEach(cb => { cb.checked = false; cb.disabled = true; });
             ecOtherCheck.checked = false; 
             ecOtherCheck.disabled = true;
             document.getElementById('ecOtherContainer').classList.add('hidden');
+            // Hide Remote ID field too
+            document.getElementById('ridOpNumContainer').classList.add('hidden');
+            document.getElementById('ridOpNum').required = false;
         } else {
             ecCheckboxes.forEach(cb => cb.disabled = false);
             ecOtherCheck.disabled = false;
+            // Check current status of Remote ID
+            if(ecRemoteId.checked) {
+                document.getElementById('ridOpNumContainer').classList.remove('hidden');
+                document.getElementById('ridOpNum').required = true;
+            }
         }
+        saveFormData();
     });
 
     ecOtherCheck.addEventListener('change', function() {
@@ -100,92 +116,123 @@ function setupEventListeners() {
         else cont.classList.add('hidden');
     });
 
-    // 2. Fartøytype "Annet"
+    // Remote ID logic
+    ecRemoteId.addEventListener('change', function() {
+        const cont = document.getElementById('ridOpNumContainer');
+        const input = document.getElementById('ridOpNum');
+        if(this.checked) {
+            cont.classList.remove('hidden');
+            input.required = true;
+        } else {
+            cont.classList.add('hidden');
+            input.required = false;
+            input.value = ""; // Clear if unchecked
+        }
+    });
+
+    // Character counter for Operator Number
+    document.getElementById('ridOpNum').addEventListener('input', function() {
+        // Enforce alphanumeric
+        this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+        const count = this.value.length;
+        document.getElementById('ridCounter').textContent = `${count}/16`;
+        if(count === 16) {
+            this.style.borderColor = "green";
+            this.classList.remove('error');
+        } else {
+            this.style.borderColor = "";
+        }
+    });
+
     document.getElementById('droneType').addEventListener('change', function() {
         const cont = document.getElementById('typeOtherContainer');
         if (this.value === 'Other') cont.classList.remove('hidden');
         else cont.classList.add('hidden');
     });
 
-    // 3. Kommunikasjon (ATC)
+    // Endurance logic
+    const enduranceInput = document.getElementById('endurance');
+    const enduranceNA = document.getElementById('enduranceNA');
+    
+    enduranceNA.addEventListener('change', function() {
+        if(this.checked) {
+            enduranceInput.disabled = true;
+            enduranceInput.required = false;
+            enduranceInput.value = "";
+            enduranceInput.placeholder = "N/A";
+            enduranceInput.classList.remove('error');
+        } else {
+            enduranceInput.disabled = false;
+            enduranceInput.required = true;
+            enduranceInput.placeholder = "hh:mm";
+        }
+    });
+
+    // ATC logic
     const comCheck = document.getElementById('comCheck');
     const comOptions = document.getElementById('comOptions');
     comCheck.addEventListener('change', function() {
         if(this.checked) comOptions.classList.remove('hidden');
         else {
             comOptions.classList.add('hidden');
-            // Uncheck sub-options
             document.querySelectorAll('input[name="comMethods"]').forEach(cb => cb.checked = false);
         }
     });
 
-    // 4. AUTORISASJON LOGIKK TRIGGERS
-    const authTriggers = ['flightCategory', 'permitType', 'stateNat', 'isIntWaters'];
-    authTriggers.forEach(id => {
+    // Auth triggers
+    ['flightCategory', 'permitType', 'stateNat', 'isIntWaters'].forEach(id => {
         const el = document.getElementById(id);
         if(el) el.addEventListener('change', updateAuthUI);
     });
 }
 
 function updateAuthUI() {
-    const category = document.getElementById('flightCategory').value; // Civil, State
+    const category = document.getElementById('flightCategory').value; 
     const civilCont = document.getElementById('civilAuthContainer');
     const stateCont = document.getElementById('stateAuthContainer');
     
-    // Inputs
-    const permitType = document.getElementById('permitType').value; // nor_oat, easa_oat
+    const permitType = document.getElementById('permitType').value; 
     const oatInput = document.getElementById('oatNumber');
+    const oatPrefix = document.getElementById('oatPrefix');
     const cboInput = document.getElementById('cboNumber');
     const isIntWaters = document.getElementById('isIntWaters').checked;
     
-    const stateNat = document.getElementById('stateNat').value; // NO, Foreign
+    const stateNat = document.getElementById('stateNat').value; 
     const diploContainer = document.getElementById('diploRefContainer');
     const diploInput = document.getElementById('diploRef');
 
     if (category === 'Civil') {
-        // Vis sivil boks, skjul stat
         civilCont.classList.remove('hidden');
         stateCont.classList.add('hidden');
-
-        // Required updates
         oatInput.required = true;
         diploInput.required = false;
 
-        // OAT Prefill Logic
         if (permitType === 'nor_oat') {
-            if(!oatInput.value.startsWith('NOR-OAT-')) oatInput.value = "NOR-OAT-";
+            oatPrefix.textContent = "NOR-OAT-";
+            oatPrefix.style.display = "flex";
         } else {
-            // EASA OAT
-            if(!oatInput.value.includes('-OAT-')) oatInput.value = "-OAT-";
+            oatPrefix.style.display = "none";
+            oatInput.placeholder = "XXX-OAT-YYY";
         }
 
-        // CBO Logic
-        // Scenario 1: Norsk OAT + Passerer int farvann -> CBO ikke nødvendig (gråes ut)
         if (permitType === 'nor_oat' && isIntWaters) {
             cboInput.disabled = true;
-            cboInput.placeholder = "Ikke påkrevd (Norsk operatør via int. farvann)";
             cboInput.required = false;
             cboInput.value = "";
+            cboInput.placeholder = placeholders[currentLang].cboNotReq;
         } 
-        // Scenario 2: Utenlandsk OAT -> CBO alltid påkrevd (prefill NOR-CBO)
         else if (permitType === 'easa_oat') {
             cboInput.disabled = false;
-            cboInput.required = true;
-            if(!cboInput.value.startsWith('NOR-CBO-')) cboInput.value = "NOR-CBO-";
-            cboInput.placeholder = "";
+            cboInput.placeholder = "NOR-CBO-";
         }
-        // Scenario 3: Norsk OAT men IKKE int farvann (f.eks krysse grense direkte land) -> CBO kan være påkrevd
         else {
             cboInput.disabled = false;
-            cboInput.placeholder = "F.eks. SWE-CBO-123";
-            // Her antar vi at de trenger CBO fra nabolandet
+            cboInput.placeholder = placeholders[currentLang].cboNumber;
         }
 
     } else {
-        // STATE / MILITÆR
         civilCont.classList.add('hidden');
         stateCont.classList.remove('hidden');
-
         oatInput.required = false;
         cboInput.required = false;
 
@@ -199,32 +246,155 @@ function updateAuthUI() {
     }
 }
 
+// --- LAGRING TIL LOCALSTORAGE ---
+function saveFormData() {
+    const form = document.getElementById('flightForm');
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    
+    data.ec = Array.from(document.querySelectorAll('input[name="ec"]:checked')).map(cb => cb.value);
+    data.comMethods = Array.from(document.querySelectorAll('input[name="comMethods"]:checked')).map(cb => cb.value);
+    data.isIntWaters = document.getElementById('isIntWaters').checked;
+    data.comCheck = document.getElementById('comCheck').checked;
+    data.enduranceNA = document.getElementById('enduranceNA').checked;
+    
+    if (drawnItems && drawnItems.getLayers().length > 0) {
+        data.mapGeoJSON = drawnItems.toGeoJSON();
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function loadFormData() {
+    const json = localStorage.getItem(STORAGE_KEY);
+    if (!json) return;
+    
+    try {
+        const data = JSON.parse(json);
+        
+        for (const [key, value] of Object.entries(data)) {
+            const el = document.getElementById(key);
+            if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA')) {
+                 if(el.type !== 'checkbox' && el.type !== 'file') el.value = value;
+            }
+        }
+        
+        if (data.ec) data.ec.forEach(val => {
+            const cb = document.querySelector(`input[name="ec"][value="${val}"]`);
+            if(cb) cb.checked = true;
+        });
+        if (data.comMethods) data.comMethods.forEach(val => {
+            const cb = document.querySelector(`input[name="comMethods"][value="${val}"]`);
+            if(cb) cb.checked = true;
+        });
+        if(data.isIntWaters !== undefined) document.getElementById('isIntWaters').checked = data.isIntWaters;
+        if(data.comCheck !== undefined) document.getElementById('comCheck').checked = data.comCheck;
+        if(data.enduranceNA !== undefined) document.getElementById('enduranceNA').checked = data.enduranceNA;
+
+        // Trigger updates
+        updateAuthUI();
+        document.getElementById('comCheck').dispatchEvent(new Event('change'));
+        document.getElementById('enduranceNA').dispatchEvent(new Event('change'));
+        if(data.ec && data.ec.includes('None')) document.getElementById('ecNone').dispatchEvent(new Event('change'));
+        if(data.ec && data.ec.includes('Annet')) document.getElementById('ecOtherCheck').dispatchEvent(new Event('change'));
+        // Trigger Remote ID logic specifically
+        if(data.ec && data.ec.includes('Remote ID')) {
+             document.getElementById('ecRemoteId').dispatchEvent(new Event('change'));
+             if(data.ridOpNum) {
+                 document.getElementById('ridOpNum').value = data.ridOpNum;
+                 document.getElementById('ridOpNum').dispatchEvent(new Event('input')); // update counter
+             }
+        }
+
+        document.getElementById('droneType').dispatchEvent(new Event('change'));
+
+        if (data.mapGeoJSON) {
+            const layer = L.geoJSON(data.mapGeoJSON);
+            layer.eachLayer(l => {
+                drawnItems.addLayer(l);
+            });
+            if(layer.getLayers().length > 0 && layer.getBounds().isValid()) {
+                map.fitBounds(layer.getBounds());
+            }
+            document.getElementById('mapError').classList.add('hidden');
+        }
+
+    } catch (e) {
+        console.error("Feil ved lasting av data", e);
+    }
+}
+
+function clearForm() {
+    if(confirm("Er du sikker på at du vil tømme skjemaet?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+}
+
 // --- VALIDERING OG ACTION ---
 function validateAndAction(action) {
     const form = document.getElementById('flightForm');
-    const inputs = form.querySelectorAll('input[required], select[required]');
+    const inputs = form.querySelectorAll('input[required]:not([disabled]), select[required]:not([disabled])');
     let isValid = true;
     
-    // 1. Sjekk felt
     inputs.forEach(input => {
-        if (!input.value.trim()) {
-            input.classList.add('error');
-            isValid = false;
-            // Legg til listener for å fjerne error når man skriver
-            input.addEventListener('input', () => input.classList.remove('error'), {once:true});
-        } else {
-            input.classList.remove('error');
+        // OAT Validering
+        if (input.id === 'oatNumber') {
+            const group = input.closest('.input-prefix-group');
+            if (!input.value.trim()) {
+                if(group) group.classList.add('error');
+                input.classList.add('error');
+                isValid = false;
+            } else {
+                if(group) group.classList.remove('error');
+                input.classList.remove('error');
+            }
+        } 
+        // Endurance Validering (hh:mm)
+        else if (input.id === 'endurance') {
+            const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+            if(!timeRegex.test(input.value)) {
+                input.classList.add('error');
+                isValid = false;
+                alert("Endurance må være på formatet hh:mm (f.eks. 01:30) eller sjekk N/A.");
+            } else {
+                input.classList.remove('error');
+            }
         }
+        // Operatørnummer Validering (16 chars)
+        else if (input.id === 'ridOpNum') {
+            const ridRegex = /^[a-zA-Z0-9]{16}$/;
+            if(!ridRegex.test(input.value)) {
+                input.classList.add('error');
+                isValid = false;
+                alert("Operatørnummer MÅ bestå av nøyaktig 16 alfanumeriske tegn.");
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        else {
+            if (!input.value.trim()) {
+                input.classList.add('error');
+                isValid = false;
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        input.addEventListener('input', function() {
+            this.classList.remove('error');
+            const g = this.closest('.input-prefix-group');
+            if(g) g.classList.remove('error');
+        }, {once:true});
     });
 
-    // 2. Sjekk kart
     if (drawnItems.getLayers().length === 0) {
         document.getElementById('mapError').classList.remove('hidden');
         isValid = false;
     }
 
     if (!isValid) {
-        alert("Skjemaet mangler påkrevd informasjon. Se røde felt.");
+        // Alert vises også spesifikt for feltene over
         return;
     }
 
@@ -240,55 +410,47 @@ function handleFileUpload(e) {
         const text = e.target.result;
         if (file.name.toLowerCase().endsWith('.kml')) {
              const layer = omnivore.kml.parse(text);
-             addLayerWithMarkers(layer);
+             addImportedLayer(layer);
         } else if (file.name.toLowerCase().endsWith('.gpx')) {
             const layer = omnivore.gpx.parse(text);
-            addLayerWithMarkers(layer);
+            addImportedLayer(layer);
+        } else if (file.name.toLowerCase().endsWith('.json') || file.name.toLowerCase().endsWith('.geojson')) {
+            const layer = L.geoJSON(JSON.parse(text));
+            addImportedLayer(layer);
         } else {
-            alert("Filformatet støttes ikke direkte (kun KML/GPX).");
+            alert("Ukjent format.");
         }
     };
     reader.readAsText(file);
 }
 
-// Hjelpefunksjon for å legge til import og tegne markører
-function addLayerWithMarkers(layer) {
-    layer.eachLayer(l => {
-        drawnItems.addLayer(l);
-        // Simulere create event for å få markører
-        if (l instanceof L.Polyline) {
-             map.fire(L.Draw.Event.CREATED, { layer: l, layerType: 'polyline' });
-        }
-    });
-    if(layer.getBounds().isValid()) map.fitBounds(layer.getBounds());
+function addImportedLayer(layer) {
+    layer.eachLayer(l => drawnItems.addLayer(l));
+    if(layer.getLayers().length > 0 && layer.getBounds().isValid()) {
+        map.fitBounds(layer.getBounds());
+    }
+    saveFormData();
 }
 
 function exportJSON() {
     const formData = new FormData(document.getElementById('flightForm'));
     const data = Object.fromEntries(formData.entries());
     
-    // Håndter arrays (checkboxes)
+    const prefixDiv = document.getElementById('oatPrefix');
+    if (prefixDiv && prefixDiv.style.display !== 'none' && data.oatNumber) {
+        data.oatNumberFull = prefixDiv.textContent + data.oatNumber;
+    } else {
+        data.oatNumberFull = data.oatNumber;
+    }
+
     data.electronicConspicuity = Array.from(document.querySelectorAll('input[name="ec"]:checked')).map(cb => cb.value);
     data.comMethods = Array.from(document.querySelectorAll('input[name="comMethods"]:checked')).map(cb => cb.value);
-    
+    data.enduranceNA = document.getElementById('enduranceNA').checked;
+
     if (drawnItems) {
         data.routeGeoJSON = drawnItems.toGeoJSON();
     }
     
-    // Rens opp JSON basert på visning
-    if (data.flightCategory === 'State') {
-        delete data.oatNumber;
-        delete data.cboNumber;
-        delete data.permitType;
-    } else {
-        delete data.diploRef;
-        delete data.stateNat;
-    }
-
-    // Slå sammen fart/høyde med enhet
-    if(data.speedVal && data.speedUnit) data.cruisingSpeed = `${data.speedVal} ${data.speedUnit}`;
-    if(data.altitudeVal && data.altitudeRef) data.altitude = `${data.altitudeVal} ${data.altitudeRef}`;
-
     data.generatedAt = new Date().toISOString();
     
     const jsonString = JSON.stringify(data, null, 2);
@@ -303,7 +465,23 @@ function exportJSON() {
 }
 
 function toggleLanguage() {
-    // Enkelt bytte for demo. I full prod bør oversettelsesfilen også oppdateres med nye nøkler.
     currentLang = currentLang === 'no' ? 'en' : 'no';
-    alert("Språkbytte er forenklet i denne versjonen. Implementer full oversettelse i translations.js for de nye feltene.");
+    const btn = document.getElementById('langToggle');
+    btn.textContent = currentLang === 'no' ? 'Switch to English' : 'Bytt til Norsk';
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[currentLang][key]) {
+            el.innerHTML = translations[currentLang][key];
+        }
+    });
+
+    const p = placeholders[currentLang];
+    if(p) {
+        for(const [id, val] of Object.entries(p)) {
+            const el = document.getElementById(id);
+            if(el) el.placeholder = val;
+        }
+    }
+    updateAuthUI(); 
 }

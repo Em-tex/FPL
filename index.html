@@ -14,21 +14,23 @@
 <body>
 
     <header>
-        <div class="header-container">
-            <div class="logo-group">
-                <a href="https://www.luftfartstilsynet.no/droner/" id="logoLink" target="_blank" class="logo-link">
-                    <img src="logo.png" alt="Luftfartstilsynet Logo" class="logo">
-                </a>
-                <h1 data-i18n="mainHeader">Melding om grensekryssende droneflyging</h1>
+        <div class="header-wrapper">
+            <div class="header-container">
+                <div class="logo-group">
+                    <a href="https://www.luftfartstilsynet.no/droner/" id="logoLink" target="_blank" class="logo-link">
+                        <img src="logo.png" alt="Luftfartstilsynet Logo" class="logo">
+                    </a>
+                    <h1 data-i18n="mainHeader">Melding om grensekryssende droneflyging</h1>
+                </div>
+                <button id="langToggle" class="btn-lang no-print" onclick="toggleLanguage()">Switch to English</button>
             </div>
-            <button id="langToggle" class="btn-lang no-print" onclick="toggleLanguage()">Switch to English</button>
         </div>
     </header>
 
     <div class="container">
         
         <div class="intro-block no-print">
-            <p data-i18n="introBlock" style="margin: 0; white-space: pre-line;">Fyll ut skjemaet nedenfor. Felter merket med rødt ved validering er påkrevd.</p>
+            <p data-i18n="txtOpenCatNote" style="margin: 0;"><strong>Merk:</strong> Flyging i <em>åpen kategori</em> krever ikke innsending av dette skjemaet.</p>
         </div>
 
         <form id="flightForm" novalidate>
@@ -38,25 +40,25 @@
                 
                 <div class="grid-2">
                     <div class="form-group full-width">
-                        <label for="operatorName" data-i18n="lblOperatorName">Operatørnavn:</label>
+                        <label for="operatorName" class="required" data-i18n="lblOperatorName">Operatørnavn:</label>
                         <input type="text" id="operatorName" name="operatorName" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="operatorEmail" data-i18n="lblOperatorEmail">Operatør E-post:</label>
+                        <label for="operatorEmail" class="required" data-i18n="lblOperatorEmail">Operatør E-post:</label>
                         <input type="email" id="operatorEmail" name="operatorEmail" required>
                     </div>
                     <div class="form-group">
-                        <label for="operatorPhone" data-i18n="lblOperatorPhone">Operatør Telefon:</label>
+                        <label for="operatorPhone" class="required" data-i18n="lblOperatorPhone">Operatør Telefon:</label>
                         <input type="tel" id="operatorPhone" name="operatorPhone" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="pilotName" data-i18n="lblPilotName">Navn på Pilot:</label>
+                        <label for="pilotName" class="required" data-i18n="lblPilotName">Navn på Pilot:</label>
                         <input type="text" id="pilotName" name="pilotName" required>
                     </div>
                     <div class="form-group">
-                        <label for="pilotPhone" data-i18n="lblPilotPhone">Pilot Telefon (tilgjengelig under flyging):</label>
+                        <label for="pilotPhone" class="required" data-i18n="lblPilotPhone">Pilot Telefon (tilgjengelig under flyging):</label>
                         <input type="tel" id="pilotPhone" name="pilotPhone" required>
                     </div>
                 </div>
@@ -65,60 +67,63 @@
                     <h3 data-i18n="subHeaderAuth">Kategori og Autorisasjoner</h3>
                     
                     <div class="form-group full-width">
-                        <label for="flightCategory">Luftfartskategori:</label>
+                        <label for="flightCategory" data-i18n="lblFlightCategory">Luftfartskategori:</label>
                         <select id="flightCategory" name="flightCategory">
-                            <option value="Civil" selected>Sivil Luftfart (EASA)</option>
-                            <option value="State">Militær / Statsluftfart (Non-EASA)</option>
+                            <option value="Civil" data-i18n="optCivil" selected>Sivil Luftfart (EASA)</option>
+                            <option value="State" data-i18n="optState">Militær / Statsluftfart (Non-EASA)</option>
                         </select>
                     </div>
 
                     <div id="civilAuthContainer" class="grid-2 mt-small">
                         <div class="form-group">
-                            <label for="permitType">Operasjonstillatelse:</label>
+                            <label for="permitType" data-i18n="lblPermitType">Operasjonstillatelse:</label>
                             <select id="permitType" name="permitType">
-                                <option value="nor_oat">Norsk operasjonstillatelse (NOR-OAT)</option>
-                                <option value="easa_oat">Operasjonstillatelse fra annet EASA land</option>
+                                <option value="nor_oat" data-i18n="optNorOat">Norsk operasjonstillatelse (NOR-OAT)</option>
+                                <option value="easa_oat" data-i18n="optEasaOat">Operasjonstillatelse fra annet EASA land</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="oatNumber">OAT-nummer:</label>
-                            <input type="text" id="oatNumber" name="oatNumber" required>
+                            <label for="oatNumber" class="required" data-i18n="lblOat">OAT-nummer:</label>
+                            <div class="input-prefix-group">
+                                <span id="oatPrefix" class="prefix">NOR-OAT-</span>
+                                <input type="text" id="oatNumber" name="oatNumber" required>
+                            </div>
                         </div>
 
                         <div class="form-group full-width">
                             <div class="checkbox-group" style="margin-bottom: 15px;">
                                 <label>
                                     <input type="checkbox" id="isIntWaters" name="isIntWaters">
-                                    <span>Passering til/fra internasjonalt farvann</span>
+                                    <span data-i18n="chkIntWaters">Passering til/fra internasjonalt farvann</span>
                                 </label>
                             </div>
                         </div>
 
                         <div class="form-group full-width">
-                            <label for="cboNumber">Cross border tillatelse (CBO):</label>
+                            <label for="cboNumber" data-i18n="lblCbo">Cross border tillatelse (CBO):</label>
                             <input type="text" id="cboNumber" name="cboNumber">
-                            <small class="help-text">Kreves for utenlandske operatører, eller norske operatører utenfor int. farvann.</small>
+                            <small class="help-text" data-i18n="helpCbo">Kreves for utenlandske operatører, eller norske operatører utenfor int. farvann.</small>
                         </div>
                     </div>
 
                     <div id="stateAuthContainer" class="grid-2 mt-small hidden">
                         <div class="form-group full-width">
                             <div class="info-notice">
-                                <strong>Merk:</strong> Diplomatisk klarering kreves for utenlandsk statsluftfart.
+                                <strong data-i18n="disclaimerTitle">Merk:</strong> <span data-i18n="txtDiploNote">Diplomatisk klarering kreves for utenlandsk statsluftfart.</span>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="stateNat">Operatørens nasjonalitet:</label>
+                            <label for="stateNat" data-i18n="lblStateNat">Operatørens nasjonalitet:</label>
                             <select id="stateNat" name="stateNat">
-                                <option value="NO">Norge</option>
-                                <option value="Foreign">Annet land</option>
+                                <option value="NO" data-i18n="optNatNo">Norge</option>
+                                <option value="Foreign" data-i18n="optNatForeign">Annet land</option>
                             </select>
                         </div>
 
                         <div class="form-group hidden" id="diploRefContainer">
-                            <label for="diploRef">Referanse for diplomatisk klarering:</label>
+                            <label for="diploRef" class="required" data-i18n="lblDiplo">Referanse for diplomatisk klarering:</label>
                             <input type="text" id="diploRef" name="diploRef">
                         </div>
                     </div>
@@ -129,16 +134,16 @@
                 <h2 data-i18n="sect2Header">2. Fartøy (Drone)</h2>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label for="manufacturer" data-i18n="lblManufacturer">Produsent:</label>
+                        <label for="manufacturer" class="required" data-i18n="lblManufacturer">Produsent:</label>
                         <input type="text" id="manufacturer" name="manufacturer" required>
                     </div>
                     <div class="form-group">
-                        <label for="model" data-i18n="lblModel">Modell:</label>
+                        <label for="model" class="required" data-i18n="lblModel">Modell:</label>
                         <input type="text" id="model" name="model" required>
                     </div>
                     
                     <div class="form-group">
-                         <label for="mtom" data-i18n="lblMtom">MTOM (kg):</label>
+                         <label for="mtom" class="required" data-i18n="lblMtom">MTOM (kg):</label>
                          <input type="number" step="0.1" id="mtom" name="mtom" required>
                     </div>
 
@@ -155,10 +160,10 @@
                     <div class="form-group">
                         <label for="droneType" data-i18n="lblDroneType">Fartøytype:</label>
                         <select id="droneType" name="droneType">
-                            <option value="Multirotor">Multirotor</option>
+                            <option value="Multirotor" data-i18n="optMultirotor">Multirotor</option>
                             <option value="Fixed Wing" data-i18n="optFixedWing">Fixed Wing (Fly)</option>
                             <option value="Helicopter" data-i18n="optHelicopter">Helikopter</option>
-                            <option value="Hybrid">Hybrid (VTOL)</option>
+                            <option value="Hybrid" data-i18n="optHybrid">Hybrid (VTOL)</option>
                             <option value="Other" data-i18n="optOther">Annet</option>
                         </select>
                         <div id="typeOtherContainer" class="hidden" style="margin-top: 5px;">
@@ -167,7 +172,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="color" data-i18n="lblColor">Farge / Kjennetegn:</label>
+                        <label for="color" class="required" data-i18n="lblColor">Farge / Kjennetegn:</label>
                         <input type="text" id="color" name="color" required>
                     </div>
                 </div>
@@ -175,49 +180,57 @@
                 <div class="form-group full-width" style="margin-top: 20px;">
                     <label style="margin-bottom: 5px;" data-i18n="lblEc">Elektronisk Synlighet:</label>
                     <div class="checkbox-group">
-                        <label><input type="checkbox" name="ec" value="None" id="ecNone"> Ingen</label>
+                        <label><input type="checkbox" name="ec" value="None" id="ecNone"> <span data-i18n="lblEcNone">Ingen</span></label>
                         <label><input type="checkbox" name="ec" value="Mode S"> Mode S</label>
                         <label><input type="checkbox" name="ec" value="Mode S ES"> Mode S ES (ADS-B)</label>
                         <label><input type="checkbox" name="ec" value="ADS-L"> ADS-L</label>
-                        <label><input type="checkbox" name="ec" value="Remote ID"> Remote ID</label>
-                        <label><input type="checkbox" id="ecOtherCheck" name="ec" value="Annet"> Annet</label>
+                        <label><input type="checkbox" name="ec" value="Remote ID" id="ecRemoteId"> Remote ID</label>
+                        <label><input type="checkbox" id="ecOtherCheck" name="ec" value="Annet"> <span data-i18n="lblEcOther">Annet</span></label>
                     </div>
+                    
+                    <div id="ridOpNumContainer" class="hidden" style="margin-top: 15px; background: #eef4fa; padding: 10px; border-radius: 4px; border: 1px solid #d0e0f0;">
+                         <label for="ridOpNum" class="required" data-i18n="lblRidOpNum">UAS Operatørnummer (fra Remote ID):</label>
+                         <div style="display: flex; gap: 10px; align-items: center;">
+                             <input type="text" id="ridOpNum" name="ridOpNum" maxlength="16" placeholder="16 alfanumeriske tegn" style="flex: 1; font-family: monospace;">
+                             <span id="ridCounter" style="font-size: 0.85rem; color: #666; width: 50px;">0/16</span>
+                         </div>
+                         <small class="help-text" data-i18n="helpRidOpNum">Må bestå av nøyaktig 16 tegn (a-z, 0-9). Ingen bindestreker.</small>
+                    </div>
+
                     <div id="ecOtherContainer" class="hidden" style="margin-top: 5px;">
-                        <input type="text" id="ecOtherText" name="ecOtherText" placeholder="Beskriv utstyr...">
+                        <input type="text" id="ecOtherText" name="ecOtherText" placeholder="...">
                     </div>
                 </div>
             </section>
 
             <section class="card form-section">
                 <h2 data-i18n="sect3Header">3. Flyging og Rute</h2>
+                
                 <div class="grid-2">
                     <div class="form-group">
-                        <label for="depPlace" data-i18n="lblDepPlace">Avgangssted:</label>
+                        <label for="depPlace" class="required" data-i18n="lblDepPlace">Avgangssted:</label>
                         <input type="text" id="depPlace" name="depPlace" required>
                     </div>
                     <div class="form-group">
-                        <label for="depTime" data-i18n="lblDepTime">Avgangstid (UTC/Lokal):</label>
+                        <label for="depTime" class="required" data-i18n="lblDepTime">Avgangstid (UTC/Lokal):</label>
                         <input type="datetime-local" id="depTime" name="depTime" required>
                     </div>
-                    
+                </div>
+
+                <div class="grid-2" style="margin-top: 15px;">
                     <div class="form-group">
-                        <label for="speedVal" data-i18n="lblSpeed">Cruising Speed:</label>
-                        <div class="input-group">
-                            <input type="number" id="speedVal" name="speedVal" required>
-                            <select id="speedUnit" name="speedUnit" style="flex: 0 0 80px;">
-                                <option value="kt">kt</option>
-                                <option value="m/s">m/s</option>
-                                <option value="km/t">km/t</option>
-                            </select>
-                        </div>
+                        <label for="arrPlace" class="required" data-i18n="lblArrPlace">Landingssted:</label>
+                        <input type="text" id="arrPlace" name="arrPlace" required>
                     </div>
                     <div class="form-group">
-                        <label for="endurance" data-i18n="lblEndurance">Endurance (hh:mm):</label>
-                        <input type="text" id="endurance" name="endurance" placeholder="01:30" pattern="[0-9]{2}:[0-9]{2}" required>
+                        <label for="arrTime" class="required" data-i18n="lblArrTime">Landingstid (Estimert):</label>
+                        <input type="datetime-local" id="arrTime" name="arrTime" required>
                     </div>
-                    
+                </div>
+
+                <div class="grid-2" style="margin-top: 15px;">
                     <div class="form-group">
-                        <label for="altitudeVal" data-i18n="lblAltitude">Planlagt Høyde:</label>
+                        <label for="altitudeVal" class="required" data-i18n="lblAltitude">Planlagt Høyde:</label>
                         <div class="input-group">
                             <input type="number" id="altitudeVal" name="altitudeVal" required>
                             <select name="altitudeRef" id="altitudeRef" style="flex: 0 0 120px;">
@@ -230,31 +243,59 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="arrPlace" data-i18n="lblArrPlace">Landingssted:</label>
-                        <input type="text" id="arrPlace" name="arrPlace" required>
+                        <label for="speedVal" data-i18n="lblSpeed">Cruising Speed:</label>
+                        <div class="input-group">
+                            <input type="number" id="speedVal" name="speedVal">
+                            <select id="speedUnit" name="speedUnit" style="flex: 0 0 80px;">
+                                <option value="kt">kt</option>
+                                <option value="m/s">m/s</option>
+                                <option value="km/t">km/t</option>
+                            </select>
+                        </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="arrTime" data-i18n="lblArrTime">Landingstid (Estimert):</label>
-                        <input type="datetime-local" id="arrTime" name="arrTime" required>
+                        <label for="endurance" class="required">
+                            <span data-i18n="lblEndurance">Endurance (hh:mm):</span>
+                            <div class="tooltip-container">
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text" data-i18n="tooltipEndurance">Hvor lenge dronen kan fly før den går tom for energi.</span>
+                            </div>
+                        </label>
+                        
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" id="endurance" name="endurance" placeholder="hh:mm" required style="flex: 1;">
+                            <label class="checkbox-group" style="margin: 0; white-space: nowrap;">
+                                <input type="checkbox" id="enduranceNA" name="enduranceNA">
+                                <span data-i18n="lblNA">N/A</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group full-width" style="margin-top: 20px;">
+                <div class="form-group full-width" style="margin-top: 25px;">
                     <label class="checkbox-single">
                         <input type="checkbox" id="comCheck" name="comCheck">
-                        <span data-i18n="lblRadio">Vil være i kommunikasjon med ATC</span>
+                        <span data-i18n="lblRadio">Vil ha kommunikasjon med ATC</span>
                     </label>
                     
-                    <div id="comOptions" class="hidden" style="margin-left: 30px; margin-top: 10px;">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="comMethods" value="Phone"> Telefon</label>
-                            <label><input type="checkbox" name="comMethods" value="Radio"> Radio (VHF)</label>
+                    <div id="comOptions" class="hidden" style="margin-left: 0; margin-top: 15px;">
+                        <div class="checkbox-group no-indent">
+                            <label><input type="checkbox" name="comMethods" value="Phone"> <span data-i18n="lblComPhone">Telefon</span></label>
+                            <label><input type="checkbox" name="comMethods" value="Radio"> <span data-i18n="lblComRadio">Radio (VHF)</span></label>
                         </div>
                     </div>
                 </div>
 
                 <div class="map-section">
-                    <span class="label-heading" data-i18n="lblRouteMap">Ruteoversikt</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="label-heading" data-i18n="lblRouteMap">Ruteoversikt</span>
+                        <div class="tooltip-container">
+                            <span class="info-icon">i</span>
+                            <span class="tooltip-text" data-i18n="tooltipMap">Støtter: KML, GPX, GeoJSON.<br>Verktøy: Google Earth, geojson.io.</span>
+                        </div>
+                    </div>
+                    
                     <p class="help-text" data-i18n="txtMapHelp">Tegn rute. Grønn markør = Start, Rød markør = Slutt.</p>
                     
                     <div class="map-controls no-print">
@@ -263,21 +304,24 @@
                     </div>
 
                     <div id="map"></div>
-                    <div id="mapError" class="error-msg hidden">Kartdata mangler! Vennligst tegn en rute.</div>
+                    <div id="mapError" class="error-msg hidden" data-i18n="msgMapError">Kartdata mangler! Vennligst tegn en rute.</div>
                 </div>
             </section>
 
-            <div class="actions no-print">
-                <button type="button" class="btn btn-secondary" onclick="validateAndAction('json')" data-i18n="btnJson">Last ned Data (JSON)</button>
-                <button type="button" class="btn btn-primary" onclick="validateAndAction('print')" data-i18n="btnPdf">Last ned / Skriv ut (PDF)</button>
+            <div class="actions no-print" style="justify-content: space-between;">
+                <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="btnReset">Tøm skjema</button>
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="btn btn-secondary" onclick="validateAndAction('json')" data-i18n="btnJson">Last ned Data (JSON)</button>
+                    <button type="button" class="btn btn-primary" onclick="validateAndAction('print')" data-i18n="btnPdf">Last ned / Skriv ut (PDF)</button>
+                </div>
             </div>
 
             <div class="info-box form-section">
                 <h3 data-i18n="infoBoxHeader">Innsending</h3>
-                <p>Sendes til:</p>
+                <p data-i18n="infoSendTo">Sendes til:</p>
                 <ul class="email-list">
-                    <li><strong>Luftfartstilsynet:</strong> postmottak@caa.no</li>
-                    <li><strong>Toll / Forsvaret:</strong> Se veileder.</li>
+                    <li data-i18n="emailCaa"><strong>Luftfartstilsynet:</strong> postmottak@caa.no</li>
+                    <li><strong data-i18n="emailTollTitle">Toll / Forsvaret:</strong> <span data-i18n="emailTollDesc">Se veileder.</span></li>
                 </ul>
 
                 <div class="email-copy-container no-print">
@@ -286,7 +330,7 @@
                 </div>
 
                 <div class="disclaimer">
-                    <strong>Merk:</strong>
+                    <strong data-i18n="disclaimerTitle">Merk:</strong>
                     <p id="footerDisclaimerText" style="margin-top: 2px;">
                         Operatøren er ansvarlig for alle tillatelser.
                         <a href="https://registrering.sensor.nsm.cloudgis.no/?initialLang=en" target="_blank">NSM Sensorregistrering</a>.
